@@ -12,129 +12,93 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 40px;
-            max-width: 600px;
             width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            animation: slideUp 0.5s ease-out;
         }
 
-        .header {
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
             text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 28px;
         }
 
-        .header .subtitle {
-            color: #7f8c8d;
-            font-size: 1.1em;
-            font-weight: 300;
-        }
-
-        .urgent-banner {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
+        .blood-icon {
             text-align: center;
-            margin-bottom: 25px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 40px;
+            margin-bottom: 20px;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            color: #34495e;
+            color: #555;
             font-weight: 600;
             margin-bottom: 8px;
-            font-size: 0.95em;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="tel"],
-        select {
+        input, select {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e6ed;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
             border-radius: 10px;
-            font-size: 1em;
+            font-size: 16px;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
+            background: white;
         }
 
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        input[type="tel"]:focus,
-        select:focus {
+        input:focus, select:focus {
             outline: none;
-            border-color: #e74c3c;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             transform: translateY(-2px);
         }
 
         select {
             cursor: pointer;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .units-input {
-            position: relative;
-        }
-
-        .units-input input {
-            padding-right: 60px;
-        }
-
-        .units-label {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7f8c8d;
-            font-weight: 500;
-            pointer-events: none;
         }
 
         .button-group {
@@ -143,554 +107,180 @@
             margin-top: 30px;
         }
 
-        .btn {
-            padding: 15px 30px;
+        button {
+            flex: 1;
+            padding: 14px 20px;
             border: none;
             border-radius: 10px;
-            font-size: 1.1em;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex: 1;
+            letter-spacing: 1px;
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .btn-secondary {
-            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        .back-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .back-btn:hover {
+            background: #667eea;
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(149, 165, 166, 0.3);
-        }
-
-        .blood-type-indicator {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background: #e74c3c;
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
             color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-left: 10px;
-            font-size: 0.9em;
-        }
-
-        .priority-section {
-            background: rgba(231, 76, 60, 0.1);
-            padding: 20px;
+            padding: 20px 30px;
             border-radius: 10px;
-            border-left: 4px solid #e74c3c;
-            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            z-index: 1000;
         }
 
-        .priority-section h3 {
-            color: #e74c3c;
-            margin-bottom: 10px;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .priority-section p {
-            color: #7f8c8d;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 25px;
-                margin: 10px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-
-            .urgent-banner {
-                font-size: 0.9em;
-            }
+        .alert.show {
+            display: block;
         }
 
         .required {
             color: #e74c3c;
         }
 
-        .form-validation {
-            color: #e74c3c;
-            font-size: 0.85em;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .invalid {
-            border-color: #e74c3c !important;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
-        }
-        /* BloodLink Header Scoped Styles */
-        .bloodlink-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            font-family: 'Poppins', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .bloodlink-header__container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            height: 70px;
-        }
-
-        /* Logo Styles */
-        .bloodlink-header__logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: #333333;
-        }
-
-        .bloodlink-header__logo-icon {
-            font-size: 28px;
-            filter: drop-shadow(0 2px 4px rgba(211, 47, 47, 0.3));
-        }
-
-        .bloodlink-header__logo-text {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333333;
-            letter-spacing: -0.5px;
-        }
-
-        /* Desktop Navigation */
-        .bloodlink-header__nav {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .bloodlink-header__nav-link {
-            color: #333333;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 8px 0;
-            position: relative;
-            transition: color 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .bloodlink-header__nav-link:hover {
-            color: #d32f2f;
-        }
-
-        .bloodlink-header__nav-link--active {
-            color: #d32f2f;
-        }
-
-        .bloodlink-header__nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #d32f2f;
-            transition: width 0.3s ease;
-        }
-
-        .bloodlink-header__nav-link:hover::after,
-        .bloodlink-header__nav-link--active::after {
-            width: 100%;
-        }
-
-        /* Mobile Toggle Button */
-        .bloodlink-header__mobile-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            background: none;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .bloodlink-header__hamburger {
-            width: 25px;
-            height: 3px;
-            background-color: #333333;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .bloodlink-header__mobile-toggle:hover .bloodlink-header__hamburger {
-            background-color: #d32f2f;
-        }
-
-        .bloodlink-header__mobile-toggle.bloodlink-header__mobile-toggle--active .bloodlink-header__hamburger:nth-child(1) {
-            transform: rotate(45deg) translate(7px, 7px);
-        }
-
-        .bloodlink-header__mobile-toggle.bloodlink-header__mobile-toggle--active .bloodlink-header__hamburger:nth-child(2) {
-            opacity: 0;
-        }
-
-        .bloodlink-header__mobile-toggle.bloodlink-header__mobile-toggle--active .bloodlink-header__hamburger:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        /* Mobile Navigation */
-        .bloodlink-header__mobile-nav {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .bloodlink-header__mobile-nav.bloodlink-header__mobile-nav--open {
-            max-height: 600px;
-        }
-
-        .bloodlink-header__mobile-link {
-            display: block;
-            color: #333333;
-            text-decoration: none;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: 500;
-            border-bottom: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
-        }
-
-        .bloodlink-header__mobile-link:hover {
-            background-color: #f8f8f8;
-            color: #d32f2f;
-            padding-left: 30px;
-        }
-
-        .bloodlink-header__mobile-link--active {
-            color: #d32f2f;
-            background-color: #fff5f5;
-            border-left: 4px solid #d32f2f;
-        }
-
-        .bloodlink-header__mobile-link:last-child {
-            border-bottom: none;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .bloodlink-header__nav {
-                gap: 20px;
-            }
-
-            .bloodlink-header__nav-link {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .bloodlink-header__nav {
-                display: none;
-            }
-
-            .bloodlink-header__mobile-toggle {
-                display: flex;
-            }
-
-            .bloodlink-header__container {
-                padding: 0 15px;
-            }
-        }
-
         @media (max-width: 480px) {
-            .bloodlink-header__logo-text {
-                font-size: 20px;
+            .container {
+                padding: 30px 20px;
             }
-
-            .bloodlink-header__logo-icon {
+            
+            h1 {
                 font-size: 24px;
             }
-
-            .bloodlink-header__container {
-                height: 60px;
+            
+            .button-group {
+                flex-direction: column;
             }
         }
-    
     </style>
 </head>
 <body>
-     <div class="bloodlink-header">
-        <div class="bloodlink-header__container">
-            <!-- Logo Section -->
-            <div class="bloodlink-header__logo">
-                <div class="bloodlink-header__logo-icon">🩸</div>
-                <span class="bloodlink-header__logo-text">BloodLink</span>
-            </div>
-
-            <!-- Desktop Navigation -->
-            <nav class="bloodlink-header__nav">
-                <a href="#home" class="bloodlink-header__nav-link bloodlink-header__nav-link--active">Home</a>
-                <a href="#registration" class="bloodlink-header__nav-link">Registration</a>
-                <a href="#login" class="bloodlink-header__nav-link">Login</a>
-                <a href="#dashboard" class="bloodlink-header__nav-link">Dashboard</a>
-                <a href="#blood-collection" class="bloodlink-header__nav-link">Blood Collection</a>
-                <a href="#blood-issue" class="bloodlink-header__nav-link">Blood Issue</a>
-                <a href="#blood-stock" class="bloodlink-header__nav-link">Blood Stock</a>
-                <a href="#camp-details" class="bloodlink-header__nav-link">Camp Details</a>
-                <a href="#blood-request" class="bloodlink-header__nav-link">Blood Request</a>
-                <a href="#search" class="bloodlink-header__nav-link">Search</a>
-                <a href="#payment" class="bloodlink-header__nav-link">Payment</a>
-                <a href="#query" class="bloodlink-header__nav-link">Query</a>
-                <a href="#feedback" class="bloodlink-header__nav-link">Feedback</a>
-                <a href="#complaint" class="bloodlink-header__nav-link">Complaint</a>
-                <a href="#gallery" class="bloodlink-header__nav-link">Gallery</a>
-            </nav>
-
-            <!-- Mobile Menu Toggle -->
-            <button class="bloodlink-header__mobile-toggle" aria-label="Toggle mobile menu">
-                <span class="bloodlink-header__hamburger"></span>
-                <span class="bloodlink-header__hamburger"></span>
-                <span class="bloodlink-header__hamburger"></span>
-            </button>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div class="bloodlink-header__mobile-nav">
-            <a href="#home" class="bloodlink-header__mobile-link bloodlink-header__mobile-link--active">Home</a>
-            <a href="#registration" class="bloodlink-header__mobile-link">Registration</a>
-            <a href="#login" class="bloodlink-header__mobile-link">Login</a>
-            <a href="#dashboard" class="bloodlink-header__mobile-link">Dashboard</a>
-            <a href="#blood-collection" class="bloodlink-header__mobile-link">Blood Collection</a>
-            <a href="#blood-issue" class="bloodlink-header__mobile-link">Blood Issue</a>
-            <a href="#blood-stock" class="bloodlink-header__mobile-link">Blood Stock</a>
-            <a href="#camp-details" class="bloodlink-header__mobile-link">Camp Details</a>
-            <a href="#blood-request" class="bloodlink-header__mobile-link">Blood Request</a>
-            <a href="#search" class="bloodlink-header__mobile-link">Search</a>
-            <a href="#payment" class="bloodlink-header__mobile-link">Payment</a>
-            <a href="#query" class="bloodlink-header__mobile-link">Query</a>
-            <a href="#feedback" class="bloodlink-header__mobile-link">Feedback</a>
-            <a href="#complaint" class="bloodlink-header__mobile-link">Complaint</a>
-            <a href="#gallery" class="bloodlink-header__mobile-link">Gallery</a>
-        </div>
-    </div>
-
-    <!-- Demo Content -->
-    <div style="padding: 20px; max-width: 1200px; margin: 0 auto;">
-        <h1>BloodLink - Online Blood Bank Management System</h1>
-        <p>This is demo content to show the sticky header behavior. Scroll down to see the header stay fixed at the top.</p>
-        
-        <div style="height: 200vh; background: linear-gradient(to bottom, #f5f5f5, #ffffff); padding: 40px; border-radius: 8px; margin-top: 20px;">
-            <h2>Demo Section 1</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            
-            <h2 style="margin-top: 100px;">Demo Section 2</h2>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            
-            <h2 style="margin-top: 100px;">Demo Section 3</h2>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-            
-            <h2 style="margin-top: 100px;">Scroll to Test Sticky Header</h2>
-            <p>Keep scrolling to see how the header remains fixed at the top of the page.</p>
-        </div>
-    </div>
-
     <div class="container">
-        <div class="urgent-banner">
-            🚨 Emergency Blood Request System
-        </div>
-
-        <div class="header">
-            <h1>🩸 Blood Issue Request</h1>
-            <p class="subtitle">Submit your blood requirement request</p>
-        </div>
-
-        <div class="priority-section">
-            <h3>📋 Request Guidelines</h3>
-            <p>Please ensure all information is accurate. Emergency requests are processed with high priority. Contact the blood bank directly for critical emergencies.</p>
-        </div>
-
-        <form id="bloodIssueForm">
+        <div class="blood-icon">🩸</div>
+        <h1>Blood Issue Request Form</h1>
+        
+        <form id="bloodRequestForm">
             <div class="form-group">
                 <label for="recipientName">Recipient Name <span class="required">*</span></label>
-                <input type="text" id="recipientName" name="recipientName" required>
-                <div class="form-validation" id="recipientNameError">Please enter the recipient's full name</div>
+                <input type="text" id="recipientName" name="recipientName" required placeholder="Enter recipient's full name">
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="bloodGroup">Blood Group Required <span class="required">*</span></label>
-                    <select id="bloodGroup" name="bloodGroup" required>
-                        <option value="">Select Blood Group</option>
-                        <option value="A+">A+ (A Positive)</option>
-                        <option value="A-">A- (A Negative)</option>
-                        <option value="B+">B+ (B Positive)</option>
-                        <option value="B-">B- (B Negative)</option>
-                        <option value="AB+">AB+ (AB Positive)</option>
-                        <option value="AB-">AB- (AB Negative)</option>
-                        <option value="O+">O+ (O Positive)</option>
-                        <option value="O-">O- (O Negative)</option>
-                    </select>
-                    <div class="form-validation" id="bloodGroupError">Please select the required blood group</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="unitsRequired">Units Required <span class="required">*</span></label>
-                    <div class="units-input">
-                        <input type="number" id="unitsRequired" name="unitsRequired" min="1" max="10" required>
-                        <span class="units-label">units</span>
-                    </div>
-                    <div class="form-validation" id="unitsError">Please enter number of units (1-10)</div>
-                </div>
+            
+            <div class="form-group">
+                <label for="bloodGroup">Blood Group <span class="required">*</span></label>
+                <select id="bloodGroup" name="bloodGroup" required>
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
             </div>
-
+            
+            <div class="form-group">
+                <label for="unitsRequired">Units Required <span class="required">*</span></label>
+                <input type="number" id="unitsRequired" name="unitsRequired" min="1" max="10" required placeholder="Enter number of units">
+            </div>
+            
+            <div class="form-group">
+                <label for="contactNo">Contact No <span class="required">*</span></label>
+                <input type="tel" id="contactNo" name="contactNo" required placeholder="Enter contact number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+            </div>
+            
             <div class="form-group">
                 <label for="hospitalName">Hospital Name <span class="required">*</span></label>
-                <input type="text" id="hospitalName" name="hospitalName" required>
-                <div class="form-validation" id="hospitalError">Please enter the hospital name</div>
+                <input type="text" id="hospitalName" name="hospitalName" required placeholder="Enter hospital name">
             </div>
-
-            <div class="form-group">
-                <label for="contactNo">Contact Number <span class="required">*</span></label>
-                <input type="tel" id="contactNo" name="contactNo" pattern="[0-9]{10}" required>
-                <div class="form-validation" id="contactError">Please enter a valid 10-digit contact number</div>
-            </div>
-
+            
             <div class="button-group">
-                <button type="button" class="btn btn-secondary" onclick="goHome()">
-                    ← Back to Home
-                </button>
-                <button type="submit" class="btn btn-primary">
-                    🚀 Submit Request
-                </button>
+                <button type="submit" class="submit-btn">Submit Request</button>
+                <button type="button" class="back-btn" onclick="goToHome()">Back to Home</button>
             </div>
         </form>
     </div>
-
+    
+    <div id="alert" class="alert">
+        ✓ Request Submitted Successfully!
+    </div>
+    
     <script>
-        // Form validation
-        function validateField(field, errorElement, validationFn) {
-            const isValid = validationFn(field.value);
-            if (isValid) {
-                field.classList.remove('invalid');
-                errorElement.style.display = 'none';
-            } else {
-                field.classList.add('invalid');
-                errorElement.style.display = 'block';
-            }
-            return isValid;
-        }
-
-        // Real-time validation
-        document.getElementById('recipientName').addEventListener('blur', function() {
-            validateField(this, document.getElementById('recipientNameError'), 
-                value => value.trim().length >= 2);
-        });
-
-        document.getElementById('bloodGroup').addEventListener('change', function() {
-            validateField(this, document.getElementById('bloodGroupError'), 
-                value => value !== '');
-        });
-
-        document.getElementById('unitsRequired').addEventListener('blur', function() {
-            validateField(this, document.getElementById('unitsError'), 
-                value => value >= 1 && value <= 10);
-        });
-
-        document.getElementById('hospitalName').addEventListener('blur', function() {
-            validateField(this, document.getElementById('hospitalError'), 
-                value => value.trim().length >= 3);
-        });
-
-        document.getElementById('contactNo').addEventListener('blur', function() {
-            validateField(this, document.getElementById('contactError'), 
-                value => /^[0-9]{10}$/.test(value));
-        });
-
-        // Handle form submission
-        document.getElementById('bloodIssueForm').addEventListener('submit', function(e) {
+        document.getElementById('bloodRequestForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Validate all fields
-            const recipientName = document.getElementById('recipientName');
-            const bloodGroup = document.getElementById('bloodGroup');
-            const unitsRequired = document.getElementById('unitsRequired');
-            const hospitalName = document.getElementById('hospitalName');
-            const contactNo = document.getElementById('contactNo');
-
-            const validations = [
-                validateField(recipientName, document.getElementById('recipientNameError'), 
-                    value => value.trim().length >= 2),
-                validateField(bloodGroup, document.getElementById('bloodGroupError'), 
-                    value => value !== ''),
-                validateField(unitsRequired, document.getElementById('unitsError'), 
-                    value => value >= 1 && value <= 10),
-                validateField(hospitalName, document.getElementById('hospitalError'), 
-                    value => value.trim().length >= 3),
-                validateField(contactNo, document.getElementById('contactError'), 
-                    value => /^[0-9]{10}$/.test(value))
-            ];
-
-            if (validations.every(valid => valid)) {
-                // Show success alert
-                alert(`Request Submitted Successfully!\n\nRecipient: ${recipientName.value}\nBlood Group: ${bloodGroup.value}\nUnits: ${unitsRequired.value}\nHospital: ${hospitalName.value}\n\nYour request has been forwarded to the blood bank. You will be contacted shortly.`);
-                
-                // Reset form
-                this.reset();
-                
-                // Remove any validation styling
-                document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
-                document.querySelectorAll('.form-validation').forEach(el => el.style.display = 'none');
-            } else {
-                alert('Please correct the highlighted errors before submitting.');
-            }
+            // Get form values
+            const formData = {
+                recipientName: document.getElementById('recipientName').value,
+                bloodGroup: document.getElementById('bloodGroup').value,
+                unitsRequired: document.getElementById('unitsRequired').value,
+                contactNo: document.getElementById('contactNo').value,
+                hospitalName: document.getElementById('hospitalName').value
+            };
+            
+            // Show alert
+            const alertBox = document.getElementById('alert');
+            alertBox.classList.add('show');
+            
+            // Log form data (in a real application, this would be sent to a server)
+            console.log('Blood Request Submitted:', formData);
+            
+            // Hide alert after 3 seconds
+            setTimeout(function() {
+                alertBox.classList.remove('show');
+            }, 3000);
+            
+            // Reset form
+            document.getElementById('bloodRequestForm').reset();
         });
-
-        // Back to Home function
-        function goHome() {
-            if (confirm('Are you sure you want to go back to home? Any unsaved data will be lost.')) {
-                alert('Redirecting to Home Page...');
-                // window.location.href = '/home';
-            }
+        
+        function goToHome() {
+            // In a real application, this would navigate to the home page
+            alert('Navigating back to home page...');
+            // window.location.href = '/home';
         }
-
-        // Add interactive animations
-        document.querySelectorAll('input, select').forEach(input => {
+        
+        // Add input animations
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.style.transform = 'scale(1.02)';
             });
@@ -698,40 +288,6 @@
             input.addEventListener('blur', function() {
                 this.parentElement.style.transform = 'scale(1)';
             });
-        });
-
-        // Blood group selection enhancement
-        document.getElementById('bloodGroup').addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            if (selectedOption.value) {
-                // Add visual feedback for selected blood group
-                this.style.background = 'rgba(231, 76, 60, 0.05)';
-                this.style.borderColor = '#e74c3c';
-            } else {
-                this.style.background = 'rgba(255, 255, 255, 0.9)';
-                this.style.borderColor = '#e0e6ed';
-            }
-        });
-
-        // Units input enhancement
-        document.getElementById('unitsRequired').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            if (value > 5) {
-                this.style.borderColor = '#f39c12';
-                if (!document.querySelector('.high-units-warning')) {
-                    const warning = document.createElement('div');
-                    warning.className = 'high-units-warning';
-                    warning.style.color = '#f39c12';
-                    warning.style.fontSize = '0.85em';
-                    warning.style.marginTop = '5px';
-                    warning.textContent = 'High quantity request - may require special approval';
-                    this.parentElement.appendChild(warning);
-                }
-            } else {
-                this.style.borderColor = '#e0e6ed';
-                const warning = document.querySelector('.high-units-warning');
-                if (warning) warning.remove();
-            }
         });
     </script>
 </body>

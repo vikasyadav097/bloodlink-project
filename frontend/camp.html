@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Camps</title>
+    <script src="js/app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .campaign-banner {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #ff6b6b;
+            background: transparent;
+            color: #ff6b6b;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-home {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(149, 165, 166, 0.3);
+        }
+
+        .camps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .camp-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .camp-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .camp-banner {
+            height: 200px;
+            background: linear-gradient(45deg, #ddd, #bbb);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 3px solid #ff6b6b;
+        }
+
+        .camp-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .camp-banner-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .camp-content {
+            padding: 25px;
+        }
+
+        .camp-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .camp-details {
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        .detail-icon {
+            font-size: 1.2em;
+            margin-right: 12px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .date-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .time-badge {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .location-text {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .camp-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-register {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-info {
+            padding: 12px 20px;
+            background: transparent;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .status-upcoming {
+            background: #00b894;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .status-today {
+            background: #fdcb6e;
+            color: white;
+            animation: blink 1s infinite;
+        }
+
+        .status-urgent {
+            background: #e74c3c;
+            color: white;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            padding: 15px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .camps-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .camp-content {
+                padding: 20px;
+            }
+
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .date-badge,
+            .time-badge,
+            .location-text {
+                margin-left: 0;
+                margin-top: 5px;
+                align-self: flex-start;
+            }
+        }
+
+        .no-camps {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            padding: 60px 20px;
+        }
+
+        .no-camps-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏕️ Blood Donation Camps</h1>
+            <p class="subtitle">Join us in saving lives through blood donation</p>
+            <div class="campaign-banner">
+                💝 Donate Blood, Save Lives
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCamps">0</div>
+                    <div class="stat-label">Total Camps</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="thisWeek">0</div>
+                    <div class="stat-label">This Week</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="thisMonth">0</div>
+                    <div class="stat-label">This Month</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalDonors">0</div>
+                    <div class="stat-label">Expected Donors</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Camps</button>
+                <button class="filter-btn" data-filter="today">Today</button>
+                <button class="filter-btn" data-filter="week">This Week</button>
+                <button class="filter-btn" data-filter="month">This Month</button>
+            </div>
+            <button class="btn-home" onclick="goHome()">
+                ← Back to Home
+            </button>
+        </div>
+
+        <div class="camps-grid" id="campsGrid">
+            <!-- Camps will be populated by JavaScript -->
+        </div>
+
+        <div class="no-camps" id="noCamps" style="display: none;">
+            <div class="no-camps-icon">🏕️</div>
+            <div>No camps found matching your filter.</div>
+        </div>
+    </div>
+
+    <script>
+        // Sample camp data
+        const camps = [
+            {
+                id: 1,
+                title: "City Hospital Blood Drive",
+                date: "2025-09-15",
+                time: "09:00 AM - 05:00 PM",
+                location: "City Hospital, Main Auditorium, Downtown",
+                status: "upcoming",
+                expectedDonors: 150
+            },
+            {
+                id: 2,
+                title: "University Campus Blood Camp",
+                date: "2025-09-18",
+                time: "10:00 AM - 04:00 PM",
+                location: "University Campus, Student Center Hall",
+                status: "upcoming",
+                expectedDonors: 200
+            },
+            {
+                id: 3,
+                title: "Community Center Drive",
+                date: "2025-08-31",
+                time: "11:00 AM - 06:00 PM",
+                location: "Central Community Center, Conference Room",
+                status: "today",
+                expectedDonors: 100
+            },
+            {
+                id: 4,
+                title: "Corporate Office Blood Camp",
+                date: "2025-09-22",
+                time: "09:30 AM - 03:30 PM",
+                location: "Tech Park Office Complex, Building A",
+                status: "upcoming",
+                expectedDonors: 120
+            },
+            {
+                id: 5,
+                title: "Red Cross Emergency Drive",
+                date: "2025-09-01",
+                time: "08:00 AM - 08:00 PM",
+                location: "Red Cross Center, Emergency Wing",
+                status: "urgent",
+                expectedDonors: 300
+            },
+            {
+                id: 6,
+                title: "School District Blood Drive",
+                date: "2025-09-25",
+                time: "02:00 PM - 07:00 PM",
+                location: "Lincoln High School, Gymnasium",
+                status: "upcoming",
+                expectedDonors: 80
+            },
+            {
+                id: 7,
+                title: "Shopping Mall Blood Camp",
+                date: "2025-09-28",
+                time: "10:00 AM - 09:00 PM",
+                location: "Grand Mall, Central Court Area",
+                status: "upcoming",
+                expectedDonors: 250
+            },
+            {
+                id: 8,
+                title: "Religious Center Drive",
+                date: "2025-09-12",
+                time: "07:00 AM - 02:00 PM",
+                location: "St. Mary's Church, Community Hall",
+                status: "upcoming",
+                expectedDonors: 90
+            }
+        ];
+
+        // Get status class and text
+        function getStatusInfo(status) {
+            const statusMap = {
+                upcoming: { class: 'status-upcoming', text: 'Upcoming' },
+                today: { class: 'status-today', text: 'Today' },
+                urgent: { class: 'status-urgent', text: 'Urgent' }
+            };
+            return statusMap[status] || statusMap.upcoming;
+        }
+
+        // Create camp card HTML
+        function createCampCard(camp) {
+            const statusInfo = getStatusInfo(camp.status);
+            const campDate = new Date(camp.date);
+            const formattedDate = campDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            return `
+                <div class="camp-card" data-status="${camp.status}" data-date="${camp.date}">
+                    <div class="camp-banner">
+                        <div class="${statusInfo.class}">${statusInfo.text}</div>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="camp-banner-icon">🏕️</div>
+                            <div>Camp Banner Image</div>
+                            <div style="font-size: 0.9em; opacity: 0.7;">Promotional Banner</div>
+                        </div>
+                    </div>
+                    <div class="camp-content">
+                        <h3 class="camp-title">${camp.title}</h3>
+                        <div class="camp-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">📅</span>
+                                <span class="detail-text">${formattedDate}</span>
+                                <span class="date-badge">${camp.date}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏰</span>
+                                <span class="detail-text">Timing</span>
+                                <span class="time-badge">${camp.time}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <div class="detail-text">
+                                    <div>${camp.location.split(',')[0]}</div>
+                                    <div style="font-size: 0.9em; opacity: 0.8;">${camp.location.split(',').slice(1).join(',')}</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span class="detail-text">Expected Donors</span>
+                                <span class="location-text">${camp.expectedDonors}</span>
+                            </div>
+                        </div>
+                        <div class="camp-actions">
+                            <button class="btn-register" onclick="registerForCamp(${camp.id})">
+                                Register Now
+                            </button>
+                            <button class="btn-info" onclick="showCampInfo(${camp.id})">
+                                More Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Filter camps
+        function filterCamps(filter) {
+            const today = new Date();
+            const oneWeekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const oneMonthFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+            
+            let filteredCamps = camps;
+
+            switch(filter) {
+                case 'today':
+                    filteredCamps = camps.filter(camp => {
+                        const campDate = new Date(camp.date);
+                        return campDate.toDateString() === today.toDateString();
+                    });
+                    break;
+                case 'week':
+                    filteredCamps = camps.filter(camp => {
+                        const campDate = new Date(camp.date);
+                        return campDate <= oneWeekFromNow && campDate >= today;
+                    });
+                    break;
+                case 'month':
+                    filteredCamps = camps.filter(camp => {
+                        const campDate = new Date(camp.date);
+                        return campDate <= oneMonthFromNow && campDate >= today;
+                    });
+                    break;
+                default:
+                    filteredCamps = camps;
+            }
+
+            displayCamps(filteredCamps);
+        }
+
+        // Display camps
+        function displayCamps(campsToShow) {
+            const campsGrid = document.getElementById('campsGrid');
+            const noCamps = document.getElementById('noCamps');
+
+            if (campsToShow.length === 0) {
+                campsGrid.innerHTML = '';
+                noCamps.style.display = 'block';
+                return;
+            }
+
+            noCamps.style.display = 'none';
+            campsGrid.innerHTML = campsToShow.map(camp => createCampCard(camp)).join('');
+
+            // Add stagger animation
+            setTimeout(() => {
+                document.querySelectorAll('.camp-card').forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 50);
+        }
+
+        // Update statistics
+        function updateStats() {
+            const today = new Date();
+            const oneWeekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const oneMonthFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+            const totalCamps = camps.length;
+            const thisWeekCamps = camps.filter(camp => {
+                const campDate = new Date(camp.date);
+                return campDate <= oneWeekFromNow && campDate >= today;
+            }).length;
+            const thisMonthCamps = camps.filter(camp => {
+                const campDate = new Date(camp.date);
+                return campDate <= oneMonthFromNow && campDate >= today;
+            }).length;
+            const totalDonors = camps.reduce((sum, camp) => sum + camp.expectedDonors, 0);
+
+            document.getElementById('totalCamps').textContent = totalCamps;
+            document.getElementById('thisWeek').textContent = thisWeekCamps;
+            document.getElementById('thisMonth').textContent = thisMonthCamps;
+            document.getElementById('totalDonors').textContent = totalDonors;
+        }
+
+        // Event handlers
+        function registerForCamp(campId) {
+            const camp = camps.find(c => c.id === campId);
+            alert(`Registration initiated for:\n${camp.title}\n\nDate: ${camp.date}\nTime: ${camp.time}\n\nYou will receive confirmation details shortly!`);
+        }
+
+        function showCampInfo(campId) {
+            const camp = camps.find(c => c.id === campId);
+            alert(`Camp Information:\n\n${camp.title}\n\n📅 Date: ${camp.date}\n⏰ Time: ${camp.time}\n📍 Location: ${camp.location}\n👥 Expected Donors: ${camp.expectedDonors}\n\nFor more details, please contact the organizers.`);
+        }
+
+        function goHome() {
+            if (confirm('Return to home page?')) {
+                alert('Redirecting to Home Page...');
+                // window.location.href = '/home';
+            }
+        }
+
+        // Initialize page
+        function initializePage() {
+            updateStats();
+            displayCamps(camps);
+
+            // Add filter event listeners
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Filter camps
+                    filterCamps(this.dataset.filter);
+                });
+            });
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

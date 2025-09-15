@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Complaint</title>
+    <script src="js/app.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 2.6em;
+            font-weight: 400;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 18px 22px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.5;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            color: #7f8c8d;
+            font-size: 16px;
+            min-height: 90px;
+            flex-direction: column;
+        }
+
+        .file-label:hover {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.05);
+            color: #e74c3c;
+            transform: translateY(-2px);
+        }
+
+        .file-label.has-file {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.05);
+            color: #27ae60;
+        }
+
+        .file-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .file-info {
+            margin-top: 12px;
+            padding: 12px 18px;
+            background: rgba(39, 174, 96, 0.1);
+            border-radius: 8px;
+            color: #27ae60;
+            font-size: 14px;
+            display: none;
+            border-left: 4px solid #27ae60;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: 2px solid #2c3e50;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background: #2c3e50;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
+        }
+
+        .alert {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(39, 174, 96, 0.4);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.6s ease;
+            font-weight: 600;
+            font-size: 16px;
+            min-width: 300px;
+            border-left: 5px solid #fff;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.15);
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .priority-notice {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #c0392b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .priority-notice strong {
+            color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 25px;
+                margin: 15px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .alert {
+                right: 15px;
+                left: 15px;
+                top: 15px;
+                min-width: auto;
+            }
+
+            .file-label {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Submit a Complaint</h1>
+            <p class="subtitle">We take all complaints seriously and are committed to resolving your concerns promptly and fairly.</p>
+        </div>
+
+        <div class="priority-notice">
+            <strong>Important:</strong> Please provide as much detail as possible to help us understand and address your concern effectively. If this is an urgent matter, please also contact our support team directly.
+        </div>
+        
+        <form id="complaintForm">
+            <div class="form-group">
+                <label for="name">Full Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required>
+                <div class="error" id="nameError">Please enter your full name</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError">Please enter a valid email address</div>
+            </div>
+
+            <div class="form-group">
+                <label for="complaint">Complaint Description <span class="required">*</span></label>
+                <textarea id="complaint" name="complaint" placeholder="Please describe your complaint in detail, including when the issue occurred, what happened, and how it has affected you..." required></textarea>
+                <div class="error" id="complaintError">Please provide a detailed description of your complaint</div>
+            </div>
+
+            <div class="form-group">
+                <label for="evidence">Upload Supporting Image (Optional)</label>
+                <div class="file-upload">
+                    <input type="file" id="evidence" name="evidence" class="file-input" accept="image/*">
+                    <label for="evidence" class="file-label">
+                        <span class="file-icon">📎</span>
+                        <span id="file-text">Upload image evidence or drag & drop</span>
+                        <small style="margin-top: 5px; color: #95a5a6;">Screenshots, photos, or documents related to your complaint</small>
+                    </label>
+                    <div class="file-info" id="fileInfo"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span id="submit-text">Submit Complaint</span>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                </div>
+            </button>
+        </form>
+
+        <button type="button" class="back-btn" onclick="goHome()">
+            ← Back to Home
+        </button>
+    </div>
+
+    <div id="successAlert" class="alert">
+        ✅ Complaint Submitted Successfully!
+    </div>
+
+    <script>
+        const form = document.getElementById('complaintForm');
+        const successAlert = document.getElementById('successAlert');
+        const fileInput = document.getElementById('evidence');
+        const fileLabel = document.querySelector('.file-label');
+        const fileText = document.getElementById('file-text');
+        const fileInfo = document.getElementById('fileInfo');
+
+        // Handle file upload
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+                    fileLabel.classList.add('has-file');
+                    fileText.innerHTML = `<strong>${file.name}</strong>`;
+                    fileInfo.innerHTML = `File selected: <strong>${file.name}</strong> (${formatFileSize(file.size)})`;
+                    fileInfo.style.display = 'block';
+                } else {
+                    alert('Please select an image file (PNG, JPG, GIF, etc.) or PDF document');
+                    fileInput.value = '';
+                }
+            } else {
+                resetFileUpload();
+            }
+        });
+
+        // Handle drag and drop
+        fileLabel.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#e74c3c';
+            this.style.background = 'rgba(231, 76, 60, 0.08)';
+            this.style.transform = 'scale(1.02)';
+        });
+
+        fileLabel.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            if (!fileInput.files[0]) {
+                this.style.borderColor = '#bdc3c7';
+                this.style.background = '#f8f9fa';
+                this.style.transform = 'scale(1)';
+            }
+        });
+
+        fileLabel.addEventListener('drop', function(e) {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+                    fileInput.files = files;
+                    fileInput.dispatchEvent(new Event('change'));
+                } else {
+                    alert('Please select an image file (PNG, JPG, GIF, etc.) or PDF document');
+                }
+            }
+            this.style.borderColor = '#bdc3c7';
+            this.style.background = '#f8f9fa';
+            this.style.transform = 'scale(1)';
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Validate form
+            if (validateForm()) {
+                showLoading(true);
+                
+                // Simulate submission delay
+                setTimeout(() => {
+                    showLoading(false);
+                    showSuccessAlert();
+                    form.reset();
+                    resetFileUpload();
+                }, 2000);
+            }
+        });
+
+        function validateForm() {
+            let isValid = true;
+            
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const complaint = document.getElementById('complaint');
+            
+            // Validate name
+            if (!name.value.trim()) {
+                showError('name', 'Please enter your full name');
+                isValid = false;
+            } else if (name.value.trim().length < 2) {
+                showError('name', 'Please enter your full name (at least 2 characters)');
+                isValid = false;
+            }
+            
+            // Validate email
+            if (!email.value.trim()) {
+                showError('email', 'Please enter your email address');
+                isValid = false;
+            } else if (!isValidEmail(email.value)) {
+                showError('email', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate complaint
+            if (!complaint.value.trim()) {
+                showError('complaint', 'Please describe your complaint');
+                isValid = false;
+            } else if (complaint.value.trim().length < 20) {
+                showError('complaint', 'Please provide a more detailed description (at least 20 characters)');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(fieldName, message) {
+            const formGroup = document.getElementById(fieldName).closest('.form-group');
+            const errorDiv = document.getElementById(fieldName + 'Error');
+            
+            formGroup.classList.add('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function clearErrors() {
+            const formGroups = document.querySelectorAll('.form-group');
+            const errors = document.querySelectorAll('.error');
+            
+            formGroups.forEach(group => group.classList.remove('error'));
+            errors.forEach(error => error.style.display = 'none');
+        }
+
+        function showLoading(show) {
+            const submitText = document.getElementById('submit-text');
+            const loading = document.getElementById('loading');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            if (show) {
+                submitText.style.opacity = '0';
+                loading.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                submitText.style.opacity = '1';
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        }
+
+        function showSuccessAlert() {
+            successAlert.style.display = 'block';
+            
+            setTimeout(() => {
+                successAlert.style.animation = 'slideOut 0.6s ease';
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                    successAlert.style.animation = 'slideIn 0.6s ease';
+                }, 600);
+            }, 4500);
+        }
+
+        function resetFileUpload() {
+            fileLabel.classList.remove('has-file');
+            fileText.innerHTML = 'Upload image evidence or drag & drop';
+            fileInfo.style.display = 'none';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function goHome() {
+            // In a real application, this would navigate to the home page
+            alert('Navigating to Home Page...');
+            // window.location.href = '/';
+        }
+
+        // Add smooth animations for form interactions
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.transition = 'transform 0.3s ease';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Character counter for complaint description
+        const complaintTextarea = document.getElementById('complaint');
+        complaintTextarea.addEventListener('input', function() {
+            const charCount = this.value.length;
+            const label = this.previousElementSibling;
+            
+            if (charCount > 0) {
+                label.innerHTML = `Complaint Description <span class="required">*</span> (${charCount} characters)`;
+            } else {
+                label.innerHTML = 'Complaint Description <span class="required">*</span>';
+            }
+        });
+
+        // Add subtle entrance animation
+        window.addEventListener('load', function() {
+            document.querySelector('.container').style.animation = 'slideIn 0.8s ease';
+        });
+    </script>
+</body>
+</html>

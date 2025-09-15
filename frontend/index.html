@@ -3,856 +3,600 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloodLink - Online Blood Bank Management System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>BloodLink – Online Blood Bank Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --primary-red: #d32f2f;
             --white: #ffffff;
             --light-grey: #f4f4f4;
             --black: #000000;
-            --dark-grey: #333333;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-grey);
-            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            background-color: var(--white);
         }
-
-        /* Navbar Styles */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            animation: slideDown 0.5s ease-out;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo::before {
-            content: '🩸';
-            margin-right: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark-grey);
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-red);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-red);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: var(--dark-grey);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(211, 47, 47, 0.85), rgba(211, 47, 47, 0.85)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect fill="%23f4f4f4"/><g opacity="0.1"><path d="M0 540 Q480 440 960 540 T1920 540 L1920 1080 L0 1080 Z" fill="%23d32f2f"/><circle cx="200" cy="200" r="150" fill="%23d32f2f"/><circle cx="1720" cy="880" r="200" fill="%23d32f2f"/></g></svg>') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            animation: fadeIn 1s ease-out;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            padding: 0 2rem;
-            animation: slideUp 1s ease-out 0.3s both;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .hero .subheadline {
-            font-size: 1.4rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-primary {
-            background: var(--white);
-            color: var(--primary-red);
-        }
-
-        .cta-secondary {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .cta-button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 5rem 2rem;
-            background: var(--light-grey);
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1rem;
         }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--dark-grey);
-            margin-bottom: 3rem;
-            position: relative;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--primary-red);
-            margin: 1rem auto;
-        }
-
-        .feature-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .feature-card:nth-child(1) { animation-delay: 0.1s; }
-        .feature-card:nth-child(2) { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) { animation-delay: 0.3s; }
-        .feature-card:nth-child(4) { animation-delay: 0.4s; }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(211,47,47,0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-title {
-            font-size: 1.3rem;
-            color: var(--dark-grey);
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-desc {
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 5rem 2rem;
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            text-align: center;
-        }
-
-        .stat-item {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .stat-item:nth-child(1) { animation-delay: 0.1s; }
-        .stat-item:nth-child(2) { animation-delay: 0.2s; }
-        .stat-item:nth-child(3) { animation-delay: 0.3s; }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: 5rem 2rem;
-            background: var(--light-grey);
-        }
-
-        .testimonial-carousel {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            height: 300px;
-        }
-
-        .testimonial-item {
-            position: absolute;
+        .bloodlink-header {
+            position: fixed;
+            top: 0;
             width: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            background: var(--white);
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
-
-        .testimonial-item.active {
-            opacity: 1;
-        }
-
-        .testimonial-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--dark-grey);
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        .testimonial-author {
+        .bloodlink-header .logo {
             font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--black);
+        }
+        .bloodlink-header .logo i {
             color: var(--primary-red);
         }
-
-        .carousel-controls {
+        .bloodlink-header nav ul {
             display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
+            background-color: var(--light-grey);
+            border-radius: 9999px;
+            padding: 0.5rem;
         }
-
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
+        .bloodlink-header nav li {
+            position: relative;
         }
-
-        .carousel-dot.active {
-            background: var(--primary-red);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark-grey);
-            color: var(--white);
-            padding: 3rem 2rem 1rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: var(--primary-red);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: var(--white);
+        .bloodlink-header nav a {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: background-color 0.3s;
+            color: var(--black);
             text-decoration: none;
-            line-height: 2;
-            transition: color 0.3s ease;
         }
-
-        .footer-links a:hover {
+        .bloodlink-header nav a:hover {
+            background-color: var(--white);
+        }
+        .bloodlink-header .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            min-width: 200px;
+        }
+        .bloodlink-header .group:hover .dropdown {
+            display: block;
+        }
+        .bloodlink-header .dropdown li a {
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+        }
+        .bloodlink-header .login-btn {
+            border: 1px solid var(--primary-red);
             color: var(--primary-red);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: background-color 0.3s;
         }
-
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+        .bloodlink-header .login-btn:hover {
+            background-color: rgba(211, 47, 47, 0.1);
         }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-red);
-            border-radius: 50%;
+        .bloodlink-header .signup-btn {
+            background: linear-gradient(to right, var(--primary-red), #f44336);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: filter 0.3s;
+        }
+        .bloodlink-header .signup-btn:hover {
+            filter: brightness(1.1);
+        }
+        .bloodlink-header .mobile-menu {
+            background-color: var(--white);
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .bloodlink-header .mobile-menu a {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--black);
+            text-decoration: none;
+        }
+        @media (max-width: 767px) {
+            .bloodlink-header nav, .bloodlink-header .buttons {
+                display: none !important;
+            }
+        }
+        @media (min-width: 768px) {
+            .bloodlink-header .hamburger, .bloodlink-header .mobile-menu {
+                display: none !important;
+            }
+        }
+        .hero {
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1920x1080/d32f2f/ffffff?text=Blood+Donation+Abstract');
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            animation: fadeIn 1s ease-in;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            animation: fadeIn 1s ease-in 0.2s;
+            animation-fill-mode: both;
+        }
+        .hero .donate-btn {
+            background: linear-gradient(to right, var(--primary-red), #f44336);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: filter 0.3s;
+        }
+        .hero .donate-btn:hover {
+            filter: brightness(1.1);
+        }
+        .hero .request-btn {
+            border: 1px solid var(--white);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .hero .request-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .hero .blood-drop {
+            font-size: 4rem;
+            color: #f44336;
+            margin-top: 2rem;
+            animation: float 3s infinite ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .features {
+            padding: 4rem 0;
+            background-color: var(--light-grey);
+        }
+        .features .card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .features .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .features .card i {
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+        .features .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .statistics {
+            padding: 4rem 0;
+            background: linear-gradient(to right, #ffebee, #ffcdd2);
+            text-align: center;
+        }
+        .statistics .counter {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--primary-red);
+        }
+        .statistics p {
+            font-size: 1.25rem;
+        }
+        .previews {
+            padding: 4rem 0;
+        }
+        .previews h2, .previews h3 {
+            text-align: center;
+            font-weight: 600;
+        }
+        .previews .card {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .previews .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .previews table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        .previews table th, .previews table td {
+            border: 1px solid var(--light-grey);
+            padding: 0.5rem;
+            text-align: center;
+        }
+        .previews table th {
+            background-color: var(--light-grey);
+        }
+        .previews .btn {
+            display: block;
+            text-align: center;
+            background: linear-gradient(to right, var(--primary-red), #f44336);
+            color: var(--white);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: filter 0.3s;
+        }
+        .previews .btn:hover {
+            filter: brightness(1.1);
+        }
+        .how-it-works {
+            padding: 4rem 0;
+            background-color: var(--light-grey);
+            text-align: center;
+        }
+        .how-it-works .step {
+            padding: 1rem;
+        }
+        .how-it-works .step span {
+            display: block;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+        .how-it-works .step h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 2rem 0;
+        }
+        footer h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        footer ul li a {
             color: var(--white);
             text-decoration: none;
-            transition: all 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
         }
-
-        .social-icon:hover {
-            background: var(--white);
-            color: var(--primary-red);
-            transform: translateY(-3px);
+        footer ul li a:hover {
+            text-decoration: underline;
         }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #555;
-            opacity: 0.8;
+        footer .social a {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: transform 0.3s;
         }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        footer .social a:hover {
+            transform: scale(1.1);
         }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
-                transform: translateY(0);
-            }
+        footer .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            margin-top: 1rem;
         }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                right: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background: var(--white);
-                flex-direction: column;
-                padding: 2rem;
-                transition: right 0.3s ease;
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
+        @media (max-width: 767px) {
             .hero h1 {
                 font-size: 2.5rem;
             }
-
-            .hero .subheadline {
-                font-size: 1.1rem;
+            .hero p {
+                font-size: 1rem;
             }
-
-            .cta-buttons {
+            .features .grid, .statistics .grid, .previews .grid, .how-it-works .grid {
+                grid-template-columns: 1fr !important;
+            }
+            .previews .flex {
                 flex-direction: column;
-                align-items: center;
             }
-
-            .cta-button {
-                width: 200px;
+            .previews .flex img, .previews .flex div {
+                width: 100% !important;
             }
-
-            .feature-cards {
-                grid-template-columns: 1fr;
+            footer .grid {
+                grid-template-columns: 1fr !important;
             }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Intersection Observer Animation */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">BloodLink</a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#registration">Registration</a></li>
-                <li><a href="#login">Login</a></li>
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#collection">Blood Collection</a></li>
-                <li><a href="#issue">Blood Issue</a></li>
-                <li><a href="#stock">Blood Stock</a></li>
-                <li><a href="#camps">Camp Details</a></li>
-                <li><a href="#request">Blood Request</a></li>
-                <li><a href="#search">Search</a></li>
-                <li><a href="#payment">Payment</a></li>
-                <li><a href="#query">Query</a></li>
-                <li><a href="#feedback">Feedback</a></li>
-                <li><a href="#complaint">Complaint</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+    <header class="bloodlink-header">
+        <div class="container flex justify-between items-center py-4">
+            <div class="logo flex items-center">
+                <i class="fas fa-tint mr-2"></i>
+                <span>BloodLink</span>
+            </div>
+            <nav class="md:flex hidden items-center">
+                <ul class="flex space-x-2">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li class="group">
+                        <a href="#">More <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#registration">Registration</a></li>
+                            <li><a href="#login">Login</a></li>
+                            <li><a href="#collection">Blood Collection</a></li>
+                            <li><a href="#issue">Blood Issue</a></li>
+                            <li><a href="#stock">Blood Stock</a></li>
+                            <li><a href="#camps">Camp Details</a></li>
+                            <li><a href="#request">Blood Request</a></li>
+                            <li><a href="#search">Search</a></li>
+                            <li><a href="#payment">Payment</a></li>
+                            <li><a href="#query">Query</a></li>
+                            <li><a href="#feedback">Feedback</a></li>
+                            <li><a href="#complaint">Complaint</a></li>
+                            <li><a href="#gallery">Gallery</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="buttons md:flex hidden space-x-4">
+                <a href="#login" class="login-btn">Login</a>
+                <a href="#signup" class="signup-btn">Sign Up</a>
+            </div>
+            <button class="hamburger md:hidden">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div class="mobile-menu hidden">
+            <div class="container">
+                <a href="#home">Home</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#services">Services</a>
+                <a href="#registration">Registration</a>
+                <a href="#login">Login</a>
+                <a href="#collection">Blood Collection</a>
+                <a href="#issue">Blood Issue</a>
+                <a href="#stock">Blood Stock</a>
+                <a href="#camps">Camp Details</a>
+                <a href="#request">Blood Request</a>
+                <a href="#search">Search</a>
+                <a href="#payment">Payment</a>
+                <a href="#query">Query</a>
+                <a href="#feedback">Feedback</a>
+                <a href="#complaint">Complaint</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#login" class="login-btn block mt-2">Login</a>
+                <a href="#signup" class="signup-btn block mt-2">Sign Up</a>
             </div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>BloodLink – Connecting Donors and Recipients</h1>
-            <p class="subheadline">A Smart Online Blood Bank Management System for Transparency and Efficiency</p>
-            <div class="cta-buttons">
-                <a href="#registration" class="cta-button cta-primary">Register Now</a>
-                <a href="#login" class="cta-button cta-secondary">Login</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
+    </header>
+    <section class="hero">
         <div class="container">
-            <h2 class="section-title animate-on-scroll">Our Key Features</h2>
-            <div class="feature-cards">
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3 class="feature-title">Real-Time Stock</h3>
-                    <p class="feature-desc">Monitor blood inventory levels in real-time across all blood groups and types</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🩸</div>
-                    <h3 class="feature-title">Easy Requests</h3>
-                    <p class="feature-desc">Streamlined blood request process with instant notifications and tracking</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏥</div>
-                    <h3 class="feature-title">Donation Camps</h3>
-                    <p class="feature-desc">Organize and manage blood donation camps with complete scheduling tools</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3 class="feature-title">Secure Management</h3>
-                    <p class="feature-desc">Advanced security protocols ensure safe and confidential data handling</p>
-                </div>
+            <h1>Connecting Donors & Recipients with Transparency</h1>
+            <p>BloodLink ensures real-time blood availability, donation management, and emergency support.</p>
+            <div class="mt-8 flex justify-center space-x-4">
+                <a href="#donate" class="donate-btn">Donate Now</a>
+                <a href="#request" class="request-btn">Request Blood</a>
+            </div>
+            <i class="fas fa-tint blood-drop"></i>
+        </div>
+    </section>
+    <section class="features">
+        <div class="container grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="card">
+                <i class="fas fa-sync"></i>
+                <h3>Real-time Stock</h3>
+                <p>Monitor blood stock levels in real-time.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-hand-holding-medical"></i>
+                <h3>Easy Blood Requests</h3>
+                <p>Submit and manage blood requests effortlessly.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Login</h3>
+                <p>Safe and secure access to your dashboard.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Donation Camps</h3>
+                <p>Find and join upcoming donation camps.</p>
             </div>
         </div>
     </section>
-
-    <!-- Stats Section -->
-    <section class="stats" id="stats">
+    <section class="statistics">
+        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <span class="counter" data-target="500">0</span>+
+                <p>Donors</p>
+            </div>
+            <div>
+                <span class="counter" data-target="2000">0</span>+
+                <p>Units Collected</p>
+            </div>
+            <div>
+                <span class="counter" data-target="300">0</span>+
+                <p>Camps</p>
+            </div>
+        </div>
+    </section>
+    <section class="previews">
+        <h2 class="text-3xl mb-8">Our Services</h2>
         <div class="container">
-            <h2 class="section-title" style="color: white;">Our Impact</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="500">0</span>
-                    <span class="stat-label">Active Donors</span>
+            <!-- Camp Details Preview -->
+            <div class="mb-16">
+                <h3 class="text-2xl mb-4">Upcoming Camps</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200/d32f2f/ffffff?text=Camp+1" alt="Camp 1">
+                        <div class="p-4">
+                            <p>Date: September 10, 2025</p>
+                            <p>Location: Delhi</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200/d32f2f/ffffff?text=Camp+2" alt="Camp 2">
+                        <div class="p-4">
+                            <p>Date: September 15, 2025</p>
+                            <p>Location: Mumbai</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200/d32f2f/ffffff?text=Camp+3" alt="Camp 3">
+                        <div class="p-4">
+                            <p>Date: September 20, 2025</p>
+                            <p>Location: Bangalore</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="2000">0</span>
-                    <span class="stat-label">Units Collected</span>
+                <a href="camp.html" class="btn mt-4">View All Camps</a>
+            </div>
+            <!-- Blood Stock Preview -->
+            <div class="mb-16">
+                <h3 class="text-2xl mb-4">Blood Stock</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Blood Group</th>
+                            <th>Units</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A+</td><td>150</td></tr>
+                        <tr><td>B+</td><td>200</td></tr>
+                        <tr><td>O+</td><td>300</td></tr>
+                        <tr><td>AB+</td><td>100</td></tr>
+                    </tbody>
+                </table>
+                <a href="stock.html" class="btn">Check Full Stock</a>
+            </div>
+            <!-- Blood Collection Preview -->
+            <div class="mb-16 flex flex-col md:flex-row items-center">
+                <img src="https://via.placeholder.com/600x400/d32f2f/ffffff?text=Blood+Collection" alt="Blood Collection" class="w-full md:w-1/2">
+                <div class="w-full md:w-1/2 p-4">
+                    <p>Manage and record blood donations efficiently.</p>
+                    <a href="collection.html" class="btn mt-4">Add Donation</a>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="300">0</span>
-                    <span class="stat-label">Donation Camps</span>
+            </div>
+            <!-- Blood Request Preview -->
+            <div class="mb-16 flex flex-col md:flex-row items-center">
+                <img src="https://via.placeholder.com/600x400/d32f2f/ffffff?text=Blood+Request" alt="Blood Request" class="w-full md:w-1/2">
+                <div class="w-full md:w-1/2 p-4">
+                    <p>Submit emergency blood requests quickly.</p>
+                    <a href="request.html" class="btn mt-4">Request Blood</a>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <h2 class="section-title animate-on-scroll">What People Say</h2>
-            <div class="testimonial-carousel">
-                <div class="testimonial-item active">
-                    <p class="testimonial-text">"BloodLink made it incredibly easy for me to donate blood and track my donation history. The platform is user-friendly and the real-time updates give me confidence that my contribution is making a difference."</p>
-                    <p class="testimonial-author">- Sarah Johnson, Regular Donor</p>
-                </div>
-                <div class="testimonial-item">
-                    <p class="testimonial-text">"As a hospital administrator, BloodLink has revolutionized how we manage blood inventory. The system's efficiency has reduced wastage and improved our emergency response times significantly."</p>
-                    <p class="testimonial-author">- Dr. Michael Chen, Hospital Director</p>
-                </div>
-                <div class="testimonial-item">
-                    <p class="testimonial-text">"When my father needed an urgent blood transfusion, BloodLink connected us with donors within hours. The quick response and professional handling saved his life. Forever grateful!"</p>
-                    <p class="testimonial-author">- Priya Patel, Recipient's Family</p>
-                </div>
+    <section class="how-it-works">
+        <h2 class="text-3xl mb-8">How It Works</h2>
+        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="step">
+                <span>1</span>
+                <h3>Register</h3>
+                <p>Create an account to get started.</p>
             </div>
-            <div class="carousel-controls">
-                <button class="carousel-dot active" data-slide="0"></button>
-                <button class="carousel-dot" data-slide="1"></button>
-                <button class="carousel-dot" data-slide="2"></button>
+            <div class="step">
+                <span>2</span>
+                <h3>Donate/Request</h3>
+                <p>Donate blood or request units as needed.</p>
+            </div>
+            <div class="step">
+                <span>3</span>
+                <h3>Manage Stock</h3>
+                <p>Track and manage blood inventory.</p>
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>About BloodLink</h3>
-                <p>Revolutionizing blood bank management with technology, connecting donors and recipients efficiently.</p>
-                <div class="social-icons">
-                    <a href="#" class="social-icon">f</a>
-                    <a href="#" class="social-icon">t</a>
-                    <a href="#" class="social-icon">in</a>
-                    <a href="#" class="social-icon">ig</a>
-                </div>
+        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h4>About BloodLink</h4>
+                <p>BloodLink is an online blood bank management system connecting donors and recipients with transparency and efficiency.</p>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#registration">Register as Donor</a></li>
-                    <li><a href="#request">Request Blood</a></li>
-                    <li><a href="#camps">Upcoming Camps</a></li>
-                    <li><a href="#stock">Check Stock</a></li>
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#registration">Registration</a></li>
+                    <li><a href="#login">Login</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#stock">Blood Stock</a></li>
+                    <li><a href="#camps">Camps</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#feedback">Feedback</a></li>
+                    <li><a href="#complaint">Complaint</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul class="footer-links">
-                    <li><a href="#query">FAQs</a></li>
-                    <li><a href="#feedback">Give Feedback</a></li>
-                    <li><a href="#complaint">File Complaint</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>📍 123 Healthcare Avenue</p>
-                <p>📞 +1 (555) 123-4567</p>
-                <p>✉️ info@bloodlink.org</p>
+            <div>
+                <h4>Contact</h4>
+                <p>Email: support@bloodlink.com</p>
+                <p>Phone: +91-9876543210</p>
+                <p>Address: Delhi, India</p>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 BloodLink. All rights reserved. | Saving Lives Through Technology</p>
+        <div class="social text-center mt-4">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="copyright text-center mt-4">
+            © 2025 BloodLink. All Rights Reserved.
         </div>
     </footer>
-
     <script>
-        // Mobile Navigation Toggle
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
+        // Hamburger toggle
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('hidden');
         });
 
-        // Close mobile menu when link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-            });
-        });
-
-        // Smooth scroll with offset for fixed navbar
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offset = 80;
-                    const targetPosition = target.offsetTop - offset;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Testimonial Carousel
-        const testimonials = document.querySelectorAll('.testimonial-item');
-        const dots = document.querySelectorAll('.carousel-dot');
-        let currentTestimonial = 0;
-
-        function showTestimonial(index) {
-            testimonials.forEach(item => item.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            testimonials[index].classList.add('active');
-            dots[index].classList.add('active');
-        }
-
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentTestimonial = index;
-                showTestimonial(currentTestimonial);
-            });
-        });
-
-        // Auto-rotate testimonials
-        setInterval(() => {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            showTestimonial(currentTestimonial);
-        }, 5000);
-
-        // Animated Counter for Stats
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-target'));
-            const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
-
+        // Animated counters
+        document.querySelectorAll('.counter').forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
             const updateCounter = () => {
-                current += increment;
-                if (current < target) {
-                    element.textContent = Math.floor(current) + '+';
-                    requestAnimationFrame(updateCounter);
+                const count = parseInt(counter.innerText);
+                const increment = target / 200;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCounter, 1);
                 } else {
-                    element.textContent = target + '+';
+                    counter.innerText = target;
                 }
             };
-
             updateCounter();
-        }
-
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                    
-                    // Trigger counter animation for stats
-                    if (entry.target.classList.contains('stat-item')) {
-                        const counter = entry.target.querySelector('.stat-number');
-                        if (counter && !counter.classList.contains('counted')) {
-                            counter.classList.add('counted');
-                            animateCounter(counter);
-                        }
-                    }
-                }
-            });
-        }, observerOptions);
-
-        // Observe elements for animation
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-
-        document.querySelectorAll('.stat-item').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Add parallax effect to hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        });
-
-        // Add active state to navbar on scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 1)';
-                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-            }
-        });
-
-        // Ripple effect on CTA buttons
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
         });
     </script>
 </body>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Request Form</title>
+    <script src="js/app.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .priority-banner {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(108, 92, 231, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(108, 92, 231, 0.6); }
+        }
+
+        .emergency-info {
+            background: rgba(108, 92, 231, 0.1);
+            border-left: 4px solid #6c5ce7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .emergency-info h3 {
+            color: #6c5ce7;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .emergency-info p {
+            color: #7f8c8d;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        .emergency-info .contact-info {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #e74c3c;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #34495e;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+            transform: translateY(-2px);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .units-group {
+            position: relative;
+        }
+
+        .units-group input {
+            padding-right: 60px;
+        }
+
+        .units-label {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        .urgency-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .urgency-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .urgency-option:hover {
+            border-color: #6c5ce7;
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        .urgency-option.selected {
+            border-color: #6c5ce7;
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .urgency-option .urgency-icon {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .urgency-option .urgency-text {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(149, 165, 166, 0.3);
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-validation {
+            color: #e74c3c;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .invalid {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+        }
+
+        .blood-group-info {
+            background: rgba(108, 92, 231, 0.05);
+            border: 1px solid #6c5ce7;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #6c5ce7;
+            display: none;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+
+            .urgency-selector {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .urgency-option {
+                padding: 12px;
+            }
+        }
+
+        .success-animation {
+            animation: success-pulse 0.6s ease-in-out;
+        }
+
+        @keyframes success-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩸 Blood Request Form</h1>
+            <p class="subtitle">Submit your blood requirement request</p>
+            <div class="priority-banner">
+                🚨 Priority Request System
+            </div>
+        </div>
+
+        <div class="emergency-info">
+            <h3>⚡ Emergency Guidelines</h3>
+            <p>For critical emergencies requiring immediate blood supply, please contact our emergency hotline directly. Standard requests are processed within 2-4 hours during business hours.</p>
+            <div class="contact-info">Emergency Hotline: +91-911-BLOOD-911</div>
+        </div>
+
+        <form id="bloodRequestForm">
+            <div class="form-group">
+                <label for="patientName">Patient/Requester Name <span class="required">*</span></label>
+                <input type="text" id="patientName" name="patientName" required>
+                <div class="form-validation" id="nameError">Please enter the patient's full name</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="bloodGroup">Blood Group Required <span class="required">*</span></label>
+                    <select id="bloodGroup" name="bloodGroup" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+ (A Positive)</option>
+                        <option value="A-">A- (A Negative)</option>
+                        <option value="B+">B+ (B Positive)</option>
+                        <option value="B-">B- (B Negative)</option>
+                        <option value="AB+">AB+ (AB Positive - Universal Plasma)</option>
+                        <option value="AB-">AB- (AB Negative)</option>
+                        <option value="O+">O+ (O Positive)</option>
+                        <option value="O-">O- (O Negative - Universal Donor)</option>
+                    </select>
+                    <div class="blood-group-info" id="bloodGroupInfo"></div>
+                    <div class="form-validation" id="bloodGroupError">Please select the required blood group</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="unitsRequired">Units Required <span class="required">*</span></label>
+                    <div class="units-group">
+                        <input type="number" id="unitsRequired" name="unitsRequired" min="1" max="20" required>
+                        <span class="units-label">units</span>
+                    </div>
+                    <div class="form-validation" id="unitsError">Please enter number of units (1-20)</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="contactNumber">Contact Number <span class="required">*</span></label>
+                <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10}" required>
+                <div class="form-validation" id="contactError">Please enter a valid 10-digit contact number</div>
+            </div>
+
+            <div class="form-group">
+                <label for="urgencyLevel">Request Priority <span class="required">*</span></label>
+                <div class="urgency-selector">
+                    <div class="urgency-option" data-urgency="routine">
+                        <div class="urgency-icon">📋</div>
+                        <div class="urgency-text">Routine</div>
+                    </div>
+                    <div class="urgency-option" data-urgency="urgent">
+                        <div class="urgency-icon">⚡</div>
+                        <div class="urgency-text">Urgent</div>
+                    </div>
+                    <div class="urgency-option" data-urgency="emergency">
+                        <div class="urgency-icon">🚨</div>
+                        <div class="urgency-text">Emergency</div>
+                    </div>
+                </div>
+                <input type="hidden" id="urgencyLevel" name="urgencyLevel" required>
+                <div class="form-validation" id="urgencyError">Please select the request priority level</div>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Reason/Medical Condition <span class="required">*</span></label>
+                <textarea id="reason" name="reason" placeholder="Please provide details about the medical condition, surgery, or reason for blood requirement..." required></textarea>
+                <div class="char-counter">
+                    <span id="charCount">0</span>/500 characters
+                </div>
+                <div class="form-validation" id="reasonError">Please provide the reason for blood requirement (minimum 10 characters)</div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="goHome()">
+                    ← Back to Home
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    🚀 Submit Request
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let selectedUrgency = '';
+
+        // Blood group information
+        const bloodGroupInfo = {
+            'A+': 'Can receive from: A+, A-, O+, O-',
+            'A-': 'Can receive from: A-, O-',
+            'B+': 'Can receive from: B+, B-, O+, O-',
+            'B-': 'Can receive from: B-, O-',
+            'AB+': 'Universal recipient - can receive from all groups',
+            'AB-': 'Can receive from: AB-, A-, B-, O-',
+            'O+': 'Can receive from: O+, O-',
+            'O-': 'Can only receive from: O- (Universal donor blood)'
+        };
+
+        // Urgency level selection
+        document.querySelectorAll('.urgency-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('.urgency-option').forEach(opt => opt.classList.remove('selected'));
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Set the urgency level
+                selectedUrgency = this.dataset.urgency;
+                document.getElementById('urgencyLevel').value = selectedUrgency;
+                
+                // Hide validation error
+                document.getElementById('urgencyError').style.display = 'none';
+            });
+        });
+
+        // Blood group selection handler
+        document.getElementById('bloodGroup').addEventListener('change', function() {
+            const infoDiv = document.getElementById('bloodGroupInfo');
+            const selectedGroup = this.value;
+            
+            if (selectedGroup && bloodGroupInfo[selectedGroup]) {
+                infoDiv.textContent = bloodGroupInfo[selectedGroup];
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        });
+
+        // Character counter for reason field
+        document.getElementById('reason').addEventListener('input', function() {
+            const charCount = this.value.length;
+            document.getElementById('charCount').textContent = charCount;
+            
+            // Change color based on character count
+            const counter = document.getElementById('charCount');
+            if (charCount > 450) {
+                counter.style.color = '#e74c3c';
+            } else if (charCount > 350) {
+                counter.style.color = '#f39c12';
+            } else {
+                counter.style.color = '#7f8c8d';
+            }
+        });
+
+        // Form validation functions
+        function validateField(field, errorElement, validationFn) {
+            const isValid = validationFn(field.value);
+            if (isValid) {
+                field.classList.remove('invalid');
+                errorElement.style.display = 'none';
+            } else {
+                field.classList.add('invalid');
+                errorElement.style.display = 'block';
+            }
+            return isValid;
+        }
+
+        // Real-time validation
+        document.getElementById('patientName').addEventListener('blur', function() {
+            validateField(this, document.getElementById('nameError'), 
+                value => value.trim().length >= 2);
+        });
+
+        document.getElementById('bloodGroup').addEventListener('change', function() {
+            validateField(this, document.getElementById('bloodGroupError'), 
+                value => value !== '');
+        });
+
+        document.getElementById('unitsRequired').addEventListener('blur', function() {
+            validateField(this, document.getElementById('unitsError'), 
+                value => value >= 1 && value <= 20);
+        });
+
+        document.getElementById('contactNumber').addEventListener('blur', function() {
+            validateField(this, document.getElementById('contactError'), 
+                value => /^[0-9]{10}$/.test(value));
+        });
+
+        document.getElementById('reason').addEventListener('blur', function() {
+            validateField(this, document.getElementById('reasonError'), 
+                value => value.trim().length >= 10);
+        });
+
+        // Form submission handler
+        document.getElementById('bloodRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate all fields
+            const patientName = document.getElementById('patientName');
+            const bloodGroup = document.getElementById('bloodGroup');
+            const unitsRequired = document.getElementById('unitsRequired');
+            const contactNumber = document.getElementById('contactNumber');
+            const reason = document.getElementById('reason');
+
+            const validations = [
+                validateField(patientName, document.getElementById('nameError'), 
+                    value => value.trim().length >= 2),
+                validateField(bloodGroup, document.getElementById('bloodGroupError'), 
+                    value => value !== ''),
+                validateField(unitsRequired, document.getElementById('unitsError'), 
+                    value => value >= 1 && value <= 20),
+                validateField(contactNumber, document.getElementById('contactError'), 
+                    value => /^[0-9]{10}$/.test(value)),
+                validateField(reason, document.getElementById('reasonError'), 
+                    value => value.trim().length >= 10)
+            ];
+
+            // Validate urgency selection
+            if (!selectedUrgency) {
+                document.getElementById('urgencyError').style.display = 'block';
+                validations.push(false);
+            } else {
+                document.getElementById('urgencyError').style.display = 'none';
+                validations.push(true);
+            }
+
+            if (validations.every(valid => valid)) {
+                // Add success animation
+                this.classList.add('success-animation');
+                
+                // Generate request ID
+                const requestId = 'BRQ' + Date.now().toString().slice(-6);
+                
+                // Show confirmation alert
+                const urgencyText = selectedUrgency.charAt(0).toUpperCase() + selectedUrgency.slice(1);
+                
+                setTimeout(() => {
+                    alert(`Blood Request Submitted Successfully! ✅
+                    
+Request Details:
+━━━━━━━━━━━━━━━━━━━━━
+📋 Request ID: ${requestId}
+👤 Patient: ${patientName.value}
+🩸 Blood Group: ${bloodGroup.value}
+📊 Units Required: ${unitsRequired.value}
+📞 Contact: ${contactNumber.value}
+⚡ Priority: ${urgencyText}
+📝 Reason: ${reason.value.substring(0, 50)}${reason.value.length > 50 ? '...' : ''}
+
+━━━━━━━━━━━━━━━━━━━━━
+✅ Your request has been forwarded to our blood bank team.
+📱 You will receive SMS updates on ${contactNumber.value}
+⏱️ Expected response time: ${selectedUrgency === 'emergency' ? '30 minutes' : selectedUrgency === 'urgent' ? '2 hours' : '4-6 hours'}
+
+Thank you for reaching out to us. We will process your request with the highest priority.`);
+                    
+                    // Reset form
+                    this.reset();
+                    selectedUrgency = '';
+                    document.getElementById('charCount').textContent = '0';
+                    document.getElementById('bloodGroupInfo').style.display = 'none';
+                    document.querySelectorAll('.urgency-option').forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Remove validation styling
+                    document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+                    document.querySelectorAll('.form-validation').forEach(el => el.style.display = 'none');
+                    
+                }, 300);
+            } else {
+                alert('Please correct the highlighted errors before submitting.');
+            }
+        });
+
+        // Back to Home function
+        function goHome() {
+            if (confirm('Are you sure you want to go back to home? Any unsaved data will be lost.')) {
+                alert('Redirecting to Home Page...');
+                // window.location.href = '/home';
+            }
+        }
+
+        // Add interactive animations
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // High units warning
+        document.getElementById('unitsRequired').addEventListener('input', function() {
+            const value = parseInt(this.value);
+            const existing = document.querySelector('.high-units-warning');
+            
+            if (value > 10) {
+                if (!existing) {
+                    const warning = document.createElement('div');
+                    warning.className = 'high-units-warning';
+                    warning.style.color = '#f39c12';
+                    warning.style.fontSize = '0.85em';
+                    warning.style.marginTop = '5px';
+                    warning.textContent = 'High quantity request - may require additional verification';
+                    this.parentElement.appendChild(warning);
+                }
+            } else {
+                if (existing) existing.remove();
+            }
+        });
+    </script>
+</body>
+</html>
