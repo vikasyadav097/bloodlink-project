@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .search-banner {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: searchPulse 2s infinite;
+        }
+
+        @keyframes searchPulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .search-info {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 4px solid #00b894;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-info h3 {
+            color: #00b894;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .search-info p {
+            color: #7f8c8d;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .blood-type-btn {
+            padding: 12px 20px;
+            background: rgba(0, 184, 148, 0.1);
+            color: #00b894;
+            border: 2px solid #00b894;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .blood-type-btn:hover,
+        .blood-type-btn.active {
+            background: #00b894;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 60px 20px 20px;
+            border: 3px solid #e0e6ed;
+            border-radius: 15px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00b894;
+            box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .search-input::placeholder {
+            text-transform: none;
+            font-weight: normal;
+            color: #bdc3c7;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 15px 20px;
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        .search-icon {
+            font-size: 1.2em;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-home {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(149, 165, 166, 0.3);
+        }
+
+        .results-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .results-title {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .search-query {
+            color: #00b894;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .result-card {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+            animation: resultPop 0.6s ease-out;
+        }
+
+        @keyframes resultPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-blood-type {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-availability {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .result-units {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .result-status {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-available { background: rgba(255, 255, 255, 0.9); color: #00b894; }
+        .status-low { background: #f39c12; color: white; }
+        .status-critical { background: #e74c3c; color: white; animation: blink 1s infinite; }
+        .status-unavailable { background: #2c3436; color: white; }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.6; }
+        }
+
+        .additional-info {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+
+        .compatibility-info {
+            margin-top: 15px;
+            font-size: 0.95em;
+            color: #7f8c8d;
+        }
+
+        .compatibility-title {
+            color: #00b894;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #e74c3c;
+            font-size: 1.2em;
+            padding: 30px;
+        }
+
+        .no-results-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .search-section {
+                padding: 20px;
+            }
+
+            .search-input {
+                font-size: 1.1em;
+                padding: 18px 60px 18px 18px;
+            }
+
+            .quick-buttons {
+                gap: 8px;
+            }
+
+            .blood-type-btn {
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+
+            .result-blood-type {
+                font-size: 2.5em;
+            }
+
+            .result-units {
+                font-size: 2em;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #00b894;
+            font-size: 1.1em;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            font-size: 2em;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #111;
+            color: white;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-top: auto;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d32f2f 0%, #ff6b6b 50%, #d32f2f 100%);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 50px;
+            position: relative;
+        }
+
+        .footer-section h3 {
+            color: #d32f2f;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: #d32f2f;
+            border-radius: 2px;
+        }
+
+        .about-text {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quick-links {
+            list-style: none;
+        }
+
+        .quick-links li {
+            margin-bottom: 12px;
+        }
+
+        .quick-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .quick-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d32f2f;
+            transition: width 0.3s ease;
+        }
+
+        .quick-links a:hover {
+            color: #d32f2f;
+            transform: translateX(8px);
+        }
+
+        .quick-links a:hover::before {
+            width: 100%;
+        }
+
+        .contact-info {
+            color: #ccc;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            color: #d32f2f;
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            color: #d32f2f;
+            width: 25px;
+            text-align: center;
+        }
+
+        .social-media {
+            margin-top: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icon:hover {
+            background: #d32f2f;
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(211, 47, 47, 0.4);
+            border-color: #d32f2f;
+        }
+
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            color: #999;
+            font-size: 14px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .bloodlink-logo {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+
+        .footer-section {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                padding: 50px 20px 30px;
+            }
+            
+            .footer-section:first-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                padding: 40px 20px 25px;
+                text-align: center;
+            }
+            
+            .footer-section:first-child {
+                grid-column: auto;
+            }
+            
+            .contact-item {
+                justify-content: center;
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+            
+            .quick-links a:hover {
+                transform: translateX(0) scale(1.05);
+            }
+            
+            .contact-item:hover {
+                transform: translateX(0) scale(1.02);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Blood Search</h1>
+            <p class="subtitle">Find available blood types and units</p>
+            <div class="search-banner">
+                🩸 Real-Time Blood Availability
+            </div>
+        </div>
+
+        <div class="search-info">
+            <h3>📋 Search Instructions</h3>
+            <p>Enter the blood group you're looking for (e.g., A+, O-, AB+) or use the quick selection buttons below. Our system will show you real-time availability from all connected blood banks and hospitals.</p>
+        </div>
+
+        <div class="search-section">
+            <div class="quick-buttons">
+                <button class="blood-type-btn" data-type="A+">A+</button>
+                <button class="blood-type-btn" data-type="A-">A-</button>
+                <button class="blood-type-btn" data-type="B+">B+</button>
+                <button class="blood-type-btn" data-type="B-">B-</button>
+                <button class="blood-type-btn" data-type="AB+">AB+</button>
+                <button class="blood-type-btn" data-type="AB-">AB-</button>
+                <button class="blood-type-btn" data-type="O+">O+</button>
+                <button class="blood-type-btn" data-type="O-">O-</button>
+            </div>
+
+            <form id="bloodSearchForm">
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="bloodGroupInput" 
+                        class="search-input" 
+                        placeholder="Enter blood group (e.g., A+, O-, AB+)"
+                        required
+                    >
+                    <button type="submit" class="search-btn">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="loading" id="loadingIndicator">
+                <div class="loading-spinner">⏳</div>
+                <div>Searching blood banks...</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-home" onclick="goHome()">
+                ← Back to Home
+            </button>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <!-- Results will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample blood availability data
+        const bloodAvailability = {
+            'A+': { units: 45, status: 'available' },
+            'A-': { units: 12, status: 'available' },
+            'B+': { units: 38, status: 'available' },
+            'B-': { units: 8, status: 'low' },
+            'AB+': { units: 15, status: 'available' },
+            'AB-': { units: 3, status: 'critical' },
+            'O+': { units: 52, status: 'available' },
+            'O-': { units: 6, status: 'low' }
+        };
+
+        // Blood compatibility information
+        const bloodCompatibility = {
+            'A+': 'Can receive from: A+, A-, O+, O-',
+            'A-': 'Can receive from: A-, O-',
+            'B+': 'Can receive from: B+, B-, O+, O-',
+            'B-': 'Can receive from: B-, O-',
+            'AB+': 'Universal recipient - can receive from all blood types',
+            'AB-': 'Can receive from: AB-, A-, B-, O-',
+            'O+': 'Can receive from: O+, O-',
+            'O-': 'Can only receive from: O- (but is universal donor)'
+        };
+
+        // Get status class and description
+        function getStatusInfo(units, status) {
+            if (units === 0) {
+                return { class: 'status-unavailable', text: 'Not Available', description: 'Currently out of stock' };
+            } else if (status === 'critical' || units <= 5) {
+                return { class: 'status-critical', text: 'Critical Low', description: 'Urgent restocking needed' };
+            } else if (status === 'low' || units <= 15) {
+                return { class: 'status-low', text: 'Low Stock', description: 'Limited availability' };
+            } else {
+                return { class: 'status-available', text: 'Available', description: 'Good stock levels' };
+            }
+        }
+
+        // Quick button selection
+        document.querySelectorAll('.blood-type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.blood-type-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Set input value
+                const bloodType = this.dataset.type;
+                document.getElementById('bloodGroupInput').value = bloodType;
+                
+                // Trigger search
+                searchBlood(bloodType);
+            });
+        });
+
+        // Search function
+        function searchBlood(bloodGroup) {
+            const resultsSection = document.getElementById('resultsSection');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            // Show loading
+            loadingIndicator.style.display = 'block';
+            resultsSection.style.display = 'none';
+            
+            // Simulate API delay
+            setTimeout(() => {
+                loadingIndicator.style.display = 'none';
+                
+                // Normalize blood group input
+                const normalizedBloodGroup = bloodGroup.toUpperCase().trim();
+                
+                // Check if blood group exists in our data
+                if (bloodAvailability[normalizedBloodGroup]) {
+                    const data = bloodAvailability[normalizedBloodGroup];
+                    const statusInfo = getStatusInfo(data.units, data.status);
+                    const compatibility = bloodCompatibility[normalizedBloodGroup];
+                    
+                    resultsSection.innerHTML = `
+                        <div class="results-header">
+                            <h2 class="results-title">Search Results</h2>
+                            <p class="search-query">Blood Group: ${normalizedBloodGroup}</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-blood-type">${normalizedBloodGroup}</div>
+                            <div class="result-availability">Blood Available</div>
+                            <div class="result-units">${data.units} units</div>
+                            <div class="result-status ${statusInfo.class}">${statusInfo.text}</div>
+                        </div>
+                        
+                        <div class="additional-info">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <strong>Stock Status:</strong>
+                                <span style="color: #7f8c8d;">${statusInfo.description}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <strong>Last Updated:</strong>
+                                <span style="color: #7f8c8d;">${new Date().toLocaleString()}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong>Source:</strong>
+                                <span style="color: #7f8c8d;">Regional Blood Bank Network</span>
+                            </div>
+                            
+                            <div class="compatibility-info">
+                                <div class="compatibility-title">🔄 Blood Compatibility</div>
+                                <div>${compatibility}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Handle invalid blood group
+                    resultsSection.innerHTML = `
+                        <div class="results-header">
+                            <h2 class="results-title">Search Results</h2>
+                            <p class="search-query">Blood Group: ${normalizedBloodGroup}</p>
+                        </div>
+                        
+                        <div class="no-results">
+                            <div class="no-results-icon">❌</div>
+                            <div>Invalid blood group entered</div>
+                            <div style="font-size: 0.9em; margin-top: 10px; color: #7f8c8d;">
+                                Please enter a valid blood group (A+, A-, B+, B-, AB+, AB-, O+, O-)
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                resultsSection.style.display = 'block';
+            }, 1500); // 1.5 second delay to simulate real search
+        }
+
+        // Form submission handler
+        document.getElementById('bloodSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const bloodGroup = document.getElementById('bloodGroupInput').value.trim();
+            
+            if (bloodGroup) {
+                searchBlood(bloodGroup);
+            } else {
+                alert('Please enter a blood group to search.');
+            }
+        });
+
+        // Input field enhancements
+        document.getElementById('bloodGroupInput').addEventListener('input', function() {
+            // Remove active state from quick buttons when typing
+            document.querySelectorAll('.blood-type-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Convert to uppercase as user types
+            const cursorPosition = this.selectionStart;
+            this.value = this.value.toUpperCase();
+            this.setSelectionRange(cursorPosition, cursorPosition);
+        });
+
+        // Enter key enhancement
+        document.getElementById('bloodGroupInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('bloodSearchForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Back to Home function
+        function goHome() {
+            if (confirm('Return to home page?')) {
+                alert('Redirecting to Home Page...');
+                // window.location.href = '/home';
+            }
+        }
+
+        // Add focus animations
+        document.getElementById('bloodGroupInput').addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+        });
+
+        document.getElementById('bloodGroupInput').addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+
+        // Initialize with some visual effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate quick buttons on load
+            document.querySelectorAll('.blood-type-btn').forEach((btn, index) => {
+                setTimeout(() => {
+                    btn.style.opacity = '0';
+                    btn.style.transform = 'translateY(10px)';
+                    btn.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        btn.style.opacity = '1';
+                        btn.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        });
+    </script>
+     <!-- BloodLink Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- About BloodLink Section -->
+            <div class="footer-section">
+                <h3>About BloodLink</h3>
+                <p class="about-text">
+                    BloodLink is an Online Blood Bank Management System that connects donors and recipients with transparency and efficiency.
+                </p>
+                <div class="social-media">
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="Facebook">📘</a>
+                        <a href="#" class="social-icon" title="Twitter">🐦</a>
+                        <a href="#" class="social-icon" title="Instagram">📸</a>
+                        <a href="#" class="social-icon" title="LinkedIn">💼</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="quick-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#registration">Registration</a></li>
+                    <li><a href="#login">Login</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#blood-stock">Blood Stock</a></li>
+                    <li><a href="#camps">Camps</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#feedback">Feedback</a></li>
+                    <li><a href="#complaint">Complaint</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>support@bloodlink.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>+91-9876543210</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>Delhi, India</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 <span class="bloodlink-logo">BloodLink</span>. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
