@@ -3,600 +3,795 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloodLink – Online Blood Bank Management System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>BloodLife - Blood Management System</title>
     <style>
-        :root {
-            --primary-red: #d32f2f;
-            --white: #ffffff;
-            --light-grey: #f4f4f4;
-            --black: #000000;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            scroll-behavior: smooth;
-            background-color: var(--white);
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 20px;
         }
-        .bloodlink-header {
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             position: fixed;
-            top: 0;
             width: 100%;
-            background-color: var(--white);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            top: 0;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
-        .bloodlink-header .logo {
-            font-weight: 600;
-            font-size: 1.5rem;
-            color: var(--black);
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
         }
-        .bloodlink-header .logo i {
-            color: var(--primary-red);
-        }
-        .bloodlink-header nav ul {
+
+        .nav-container {
             display: flex;
-            background-color: var(--light-grey);
-            border-radius: 9999px;
-            padding: 0.5rem;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
         }
-        .bloodlink-header nav li {
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e53e3e;
+        }
+
+        .logo::before {
+            content: "🩸";
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin: 0 1rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
             position: relative;
         }
-        .bloodlink-header nav a {
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            transition: background-color 0.3s;
-            color: var(--black);
-            text-decoration: none;
+
+        .nav-link:hover {
+            color: #e53e3e;
+            background: rgba(229, 62, 62, 0.1);
+            transform: translateY(-2px);
         }
-        .bloodlink-header nav a:hover {
-            background-color: var(--white);
-        }
-        .bloodlink-header .dropdown {
+
+        .mobile-menu-btn {
             display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--white);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 0.5rem;
-            min-width: 200px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
-        .bloodlink-header .group:hover .dropdown {
+
+        /* Header */
+        header {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c53030;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(229, 62, 62, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: -20px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .features-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
             display: block;
         }
-        .bloodlink-header .dropdown li a {
-            display: block;
-            padding: 0.5rem 1rem;
-            border-radius: 0;
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
         }
-        .bloodlink-header .login-btn {
-            border: 1px solid var(--primary-red);
-            color: var(--primary-red);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            transition: background-color 0.3s;
+
+        .feature-card p {
+            color: #718096;
+            line-height: 1.6;
         }
-        .bloodlink-header .login-btn:hover {
-            background-color: rgba(211, 47, 47, 0.1);
+
+        .stats-section {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            color: white;
+            padding: 60px 0;
         }
-        .bloodlink-header .signup-btn {
-            background: linear-gradient(to right, var(--primary-red), #f44336);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            transition: filter 0.3s;
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
         }
-        .bloodlink-header .signup-btn:hover {
-            filter: brightness(1.1);
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
         }
-        .bloodlink-header .mobile-menu {
-            background-color: var(--white);
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
-        .bloodlink-header .mobile-menu a {
-            display: block;
-            padding: 0.5rem 0;
-            color: var(--black);
-            text-decoration: none;
+
+        .about-section {
+            padding: 80px 0;
+            background: #f7fafc;
         }
-        @media (max-width: 767px) {
-            .bloodlink-header nav, .bloodlink-header .buttons {
-                display: none !important;
-            }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
         }
-        @media (min-width: 768px) {
-            .bloodlink-header .hamburger, .bloodlink-header .mobile-menu {
-                display: none !important;
-            }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
         }
-        .hero {
-            min-height: 100vh;
-            background-image: url('https://via.placeholder.com/1920x1080/d32f2f/ffffff?text=Blood+Donation+Abstract');
-            background-size: cover;
-            background-position: center;
+
+        .about-text p {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .about-image {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 15px;
+            height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: var(--white);
+            font-size: 6rem;
+            color: white;
         }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 600;
-            animation: fadeIn 1s ease-in;
-        }
-        .hero p {
-            font-size: 1.25rem;
-            margin-top: 1rem;
-            animation: fadeIn 1s ease-in 0.2s;
-            animation-fill-mode: both;
-        }
-        .hero .donate-btn {
-            background: linear-gradient(to right, var(--primary-red), #f44336);
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            font-size: 1.125rem;
-            text-decoration: none;
-            transition: filter 0.3s;
-        }
-        .hero .donate-btn:hover {
-            filter: brightness(1.1);
-        }
-        .hero .request-btn {
-            border: 1px solid var(--white);
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            font-size: 1.125rem;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        .hero .request-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .hero .blood-drop {
-            font-size: 4rem;
-            color: #f44336;
-            margin-top: 2rem;
-            animation: float 3s infinite ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-        .features {
-            padding: 4rem 0;
-            background-color: var(--light-grey);
-        }
-        .features .card {
-            background-color: var(--white);
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .features .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .features .card i {
-            font-size: 2.5rem;
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-        }
-        .features .card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        .statistics {
-            padding: 4rem 0;
-            background: linear-gradient(to right, #ffebee, #ffcdd2);
-            text-align: center;
-        }
-        .statistics .counter {
-            font-size: 3rem;
-            font-weight: 600;
-            color: var(--primary-red);
-        }
-        .statistics p {
-            font-size: 1.25rem;
-        }
-        .previews {
-            padding: 4rem 0;
-        }
-        .previews h2, .previews h3 {
-            text-align: center;
-            font-weight: 600;
-        }
-        .previews .card {
-            background-color: var(--white);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .previews .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-        .previews table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-        }
-        .previews table th, .previews table td {
-            border: 1px solid var(--light-grey);
-            padding: 0.5rem;
-            text-align: center;
-        }
-        .previews table th {
-            background-color: var(--light-grey);
-        }
-        .previews .btn {
-            display: block;
-            text-align: center;
-            background: linear-gradient(to right, var(--primary-red), #f44336);
-            color: var(--white);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            transition: filter 0.3s;
-        }
-        .previews .btn:hover {
-            filter: brightness(1.1);
-        }
-        .how-it-works {
-            padding: 4rem 0;
-            background-color: var(--light-grey);
-            text-align: center;
-        }
-        .how-it-works .step {
-            padding: 1rem;
-        }
-        .how-it-works .step span {
-            display: block;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--primary-red);
-            margin-bottom: 0.5rem;
-        }
-        .how-it-works .step h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
+
+        /* Footer */
         footer {
-            background-color: var(--black);
-            color: var(--white);
-            padding: 2rem 0;
+            background: #1a202c;
+            color: white;
+            padding: 60px 0 20px;
         }
-        footer h4 {
-            font-weight: 600;
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
             margin-bottom: 1rem;
+            color: #e53e3e;
         }
-        footer ul li a {
-            color: var(--white);
-            text-decoration: none;
-            display: block;
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
             margin-bottom: 0.5rem;
         }
-        footer ul li a:hover {
-            text-decoration: underline;
+
+        .footer-section ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
-        footer .social a {
-            color: var(--white);
-            font-size: 1.5rem;
-            margin: 0 0.5rem;
-            transition: transform 0.3s;
+
+        .footer-section ul li a:hover {
+            color: white;
         }
-        footer .social a:hover {
-            transform: scale(1.1);
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #2d3748;
+            text-align: center;
+            color: #a0aec0;
         }
-        footer .copyright {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1rem;
-            margin-top: 1rem;
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        @media (max-width: 767px) {
-            .hero h1 {
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .hero-content h1 {
                 font-size: 2.5rem;
             }
-            .hero p {
-                font-size: 1rem;
+
+            .hero-content p {
+                font-size: 1.1rem;
             }
-            .features .grid, .statistics .grid, .previews .grid, .how-it-works .grid {
-                grid-template-columns: 1fr !important;
-            }
-            .previews .flex {
+
+            .cta-buttons {
                 flex-direction: column;
+                align-items: center;
             }
-            .previews .flex img, .previews .flex div {
-                width: 100% !important;
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
-            footer .grid {
-                grid-template-columns: 1fr !important;
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header class="bloodlink-header">
-        <div class="container flex justify-between items-center py-4">
-            <div class="logo flex items-center">
-                <i class="fas fa-tint mr-2"></i>
-                <span>BloodLink</span>
-            </div>
-            <nav class="md:flex hidden items-center">
-                <ul class="flex space-x-2">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li class="group">
-                        <a href="#">More <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="#registration">Registration</a></li>
-                            <li><a href="#login">Login</a></li>
-                            <li><a href="#collection">Blood Collection</a></li>
-                            <li><a href="#issue">Blood Issue</a></li>
-                            <li><a href="#stock">Blood Stock</a></li>
-                            <li><a href="#camps">Camp Details</a></li>
-                            <li><a href="#request">Blood Request</a></li>
-                            <li><a href="#search">Search</a></li>
-                            <li><a href="#payment">Payment</a></li>
-                            <li><a href="#query">Query</a></li>
-                            <li><a href="#feedback">Feedback</a></li>
-                            <li><a href="#complaint">Complaint</a></li>
-                            <li><a href="#gallery">Gallery</a></li>
-                        </ul>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">BloodLink</div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="search.html" class="nav-link">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link">Login</a>
                     </li>
                 </ul>
-            </nav>
-            <div class="buttons md:flex hidden space-x-4">
-                <a href="#login" class="login-btn">Login</a>
-                <a href="#signup" class="signup-btn">Sign Up</a>
+                <button class="mobile-menu-btn" id="mobile-menu">
+                    ☰
+                </button>
             </div>
-            <button class="hamburger md:hidden">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
         </div>
-        <div class="mobile-menu hidden">
-            <div class="container">
-                <a href="#home">Home</a>
-                <a href="#dashboard">Dashboard</a>
-                <a href="#services">Services</a>
-                <a href="#registration">Registration</a>
-                <a href="#login">Login</a>
-                <a href="#collection">Blood Collection</a>
-                <a href="#issue">Blood Issue</a>
-                <a href="#stock">Blood Stock</a>
-                <a href="#camps">Camp Details</a>
-                <a href="#request">Blood Request</a>
-                <a href="#search">Search</a>
-                <a href="#payment">Payment</a>
-                <a href="#query">Query</a>
-                <a href="#feedback">Feedback</a>
-                <a href="#complaint">Complaint</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#login" class="login-btn block mt-2">Login</a>
-                <a href="#signup" class="signup-btn block mt-2">Sign Up</a>
+    </nav>
+
+    <!-- Header -->
+    <header id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Save Lives Through Smart Blood Management</h1>
+                <p>Connecting donors, recipients, and blood banks through BloodLink - Your trusted partner for efficient blood donation and distribution.</p>
+                <div class="cta-buttons">
+                    <a href="register.html" class="btn btn-primary">Register as Donor</a>
+                    <a href="dashboard.html" class="btn btn-secondary">Go to Dashboard</a>
+                </div>
             </div>
         </div>
     </header>
-    <section class="hero">
+
+    <!-- Main Content -->
+    <main>
+        <!-- Quick Access Section -->
+        <section class="quick-access-section" style="padding: 60px 0; background: #f7fafc;">
+            <div class="container">
+                <h2 class="section-title">Quick Access</h2>
+                <div class="quick-access-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                    <div class="access-card" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease;">
+                        <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🏥</span>
+                        <h3 style="color: #2d3748; margin-bottom: 1rem;">Blood Camps</h3>
+                        <p style="color: #718096; margin-bottom: 1.5rem;">Find and organize blood donation camps in your area.</p>
+                        <a href="camp.html" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px 20px;">View Camps</a>
+                    </div>
+                    <div class="access-card" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease;">
+                        <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">📊</span>
+                        <h3 style="color: #2d3748; margin-bottom: 1rem;">Stock Management</h3>
+                        <p style="color: #718096; margin-bottom: 1.5rem;">Monitor blood inventory and stock levels.</p>
+                        <a href="stock.html" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px 20px;">Check Stock</a>
+                    </div>
+                    <div class="access-card" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease;">
+                        <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">📝</span>
+                        <h3 style="color: #2d3748; margin-bottom: 1rem;">Blood Requests</h3>
+                        <p style="color: #718096; margin-bottom: 1.5rem;">Submit or manage blood requests for patients.</p>
+                        <a href="request.html" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px 20px;">Make Request</a>
+                    </div>
+                    <div class="access-card" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease;">
+                        <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🔍</span>
+                        <h3 style="color: #2d3748; margin-bottom: 1rem;">Search Donors</h3>
+                        <p style="color: #718096; margin-bottom: 1.5rem;">Find registered donors by blood type and location.</p>
+                        <a href="search.html" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px 20px;">Search Now</a>
+                    </div>
+                    <div class="access-card" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease;">
+                        <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🩸</span>
+                        <h3 style="color: #2d3748; margin-bottom: 1rem;">Collection Records</h3>
+                        <p style="color: #718096; margin-bottom: 1.5rem;">Track blood collection and donation history.</p>
+                        <a href="collection.html" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px 20px;">View Records</a>
+                    </div>
+                    <div class="access-card" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease;">
+                        <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">❓</span>
+                        <h3 style="color: #2d3748; margin-bottom: 1rem;">Support & Queries</h3>
+                        <p style="color: #718096; margin-bottom: 1.5rem;">Get help or submit your questions and feedback.</p>
+                        <a href="query.html" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px 20px;">Get Support</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <h2 class="section-title">Our Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-image" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                            <div style="font-size: 2rem; color: white; animation: pulse 2s infinite;">🏥</div>
+                            <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); animation: ripple 3s infinite;"></div>
+                        </div>
+                        <h3>Blood Camp Management</h3>
+                        <p>Organize and manage blood donation camps with easy scheduling, donor registration, and real-time updates.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-image" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, #e53e3e, #c53030); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="font-size: 2rem; color: white; animation: heartbeat 1.5s infinite;">❤️</div>
+                            <div style="position: absolute; width: 120%; height: 120%; border: 2px solid rgba(229,62,62,0.3); border-radius: 50%; animation: expand 2s infinite;"></div>
+                        </div>
+                        <h3>Blood Collection Tracking</h3>
+                        <p>Track blood collection records, donor history, and maintain comprehensive donation databases efficiently.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-image" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, #38b2ac, #319795); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="font-size: 2rem; color: white; animation: bounce 2s infinite;">📋</div>
+                            <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, rgba(56,178,172,0.3) 0%, transparent 70%); animation: glow 2s ease-in-out infinite alternate;"></div>
+                        </div>
+                        <h3>Request Management</h3>
+                        <p>Submit and manage blood requests from hospitals and patients with priority handling and status tracking.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-image" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, #805ad5, #6b46c1); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="font-size: 2rem; color: white; animation: rotate 4s linear infinite;">📊</div>
+                            <div style="position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border: 2px solid rgba(128,90,213,0.3); border-radius: 50%; border-top-color: rgba(128,90,213,0.8); animation: spin 2s linear infinite;"></div>
+                        </div>
+                        <h3>Stock Monitoring</h3>
+                        <p>Real-time blood stock management with inventory tracking, expiration alerts, and availability status.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-image" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, #ed8936, #dd6b20); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="font-size: 2rem; color: white; animation: shake 3s infinite;">🔍</div>
+                            <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 0 0 rgba(237,137,54,0.7); animation: ping 2s infinite;"></div>
+                        </div>
+                        <h3>Donor Search</h3>
+                        <p>Advanced search functionality to find registered donors by blood type, location, and availability status.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-image" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, #48bb78, #38a169); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="font-size: 2rem; color: white; animation: float 3s ease-in-out infinite;">💬</div>
+                            <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed rgba(72,187,120,0.4); animation: dashRotate 6s linear infinite;"></div>
+                        </div>
+                        <h3>Support System</h3>
+                        <p>Comprehensive support with query handling, feedback collection, and complaint resolution services.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3 id="donors-count">15,000+</h3>
+                        <p>Registered Donors</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="units-collected">50,000+</h3>
+                        <p>Blood Units Collected</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="lives-saved">25,000+</h3>
+                        <p>Lives Saved</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="blood-banks">200+</h3>
+                        <p>Partner Blood Banks</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>About BloodLink</h2>
+                        <p>BloodLink is a comprehensive blood management system designed to bridge the gap between blood donors, recipients, and blood banks. Our mission is to ensure that life-saving blood is available when and where it's needed most.</p>
+                        <p>With advanced technology and user-friendly interfaces, we streamline the entire blood donation process, from donor registration to inventory management and emergency response.</p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                            <a href="feedback.html" class="btn btn-primary" style="font-size: 0.9rem;">Give Feedback</a>
+                            <a href="complaint.html" class="btn btn-secondary" style="color: #e53e3e; background: white; border: 2px solid #e53e3e; font-size: 0.9rem;">Report Issue</a>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        ❤️
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
         <div class="container">
-            <h1>Connecting Donors & Recipients with Transparency</h1>
-            <p>BloodLink ensures real-time blood availability, donation management, and emergency support.</p>
-            <div class="mt-8 flex justify-center space-x-4">
-                <a href="#donate" class="donate-btn">Donate Now</a>
-                <a href="#request" class="request-btn">Request Blood</a>
-            </div>
-            <i class="fas fa-tint blood-drop"></i>
-        </div>
-    </section>
-    <section class="features">
-        <div class="container grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="card">
-                <i class="fas fa-sync"></i>
-                <h3>Real-time Stock</h3>
-                <p>Monitor blood stock levels in real-time.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-hand-holding-medical"></i>
-                <h3>Easy Blood Requests</h3>
-                <p>Submit and manage blood requests effortlessly.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-lock"></i>
-                <h3>Secure Login</h3>
-                <p>Safe and secure access to your dashboard.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-map-marker-alt"></i>
-                <h3>Donation Camps</h3>
-                <p>Find and join upcoming donation camps.</p>
-            </div>
-        </div>
-    </section>
-    <section class="statistics">
-        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-                <span class="counter" data-target="500">0</span>+
-                <p>Donors</p>
-            </div>
-            <div>
-                <span class="counter" data-target="2000">0</span>+
-                <p>Units Collected</p>
-            </div>
-            <div>
-                <span class="counter" data-target="300">0</span>+
-                <p>Camps</p>
-            </div>
-        </div>
-    </section>
-    <section class="previews">
-        <h2 class="text-3xl mb-8">Our Services</h2>
-        <div class="container">
-            <!-- Camp Details Preview -->
-            <div class="mb-16">
-                <h3 class="text-2xl mb-4">Upcoming Camps</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/300x200/d32f2f/ffffff?text=Camp+1" alt="Camp 1">
-                        <div class="p-4">
-                            <p>Date: September 10, 2025</p>
-                            <p>Location: Delhi</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://via.placeholder.com/300x200/d32f2f/ffffff?text=Camp+2" alt="Camp 2">
-                        <div class="p-4">
-                            <p>Date: September 15, 2025</p>
-                            <p>Location: Mumbai</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://via.placeholder.com/300x200/d32f2f/ffffff?text=Camp+3" alt="Camp 3">
-                        <div class="p-4">
-                            <p>Date: September 20, 2025</p>
-                            <p>Location: Bangalore</p>
-                        </div>
-                    </div>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BloodLink</h3>
+                    <p>Connecting hearts, saving lives through efficient blood management and donation systems.</p>
                 </div>
-                <a href="camp.html" class="btn mt-4">View All Camps</a>
-            </div>
-            <!-- Blood Stock Preview -->
-            <div class="mb-16">
-                <h3 class="text-2xl mb-4">Blood Stock</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Blood Group</th>
-                            <th>Units</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>A+</td><td>150</td></tr>
-                        <tr><td>B+</td><td>200</td></tr>
-                        <tr><td>O+</td><td>300</td></tr>
-                        <tr><td>AB+</td><td>100</td></tr>
-                    </tbody>
-                </table>
-                <a href="stock.html" class="btn">Check Full Stock</a>
-            </div>
-            <!-- Blood Collection Preview -->
-            <div class="mb-16 flex flex-col md:flex-row items-center">
-                <img src="https://via.placeholder.com/600x400/d32f2f/ffffff?text=Blood+Collection" alt="Blood Collection" class="w-full md:w-1/2">
-                <div class="w-full md:w-1/2 p-4">
-                    <p>Manage and record blood donations efficiently.</p>
-                    <a href="collection.html" class="btn mt-4">Add Donation</a>
+                <div class="footer-section">
+                    <h3>Main Pages</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="register.html">Register</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="camp.html">Blood Camps</a></li>
+                        <li><a href="request.html">Blood Requests</a></li>
+                        <li><a href="collection.html">Collection Records</a></li>
+                        <li><a href="stock.html">Stock Management</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="query.html">Submit Query</a></li>
+                        <li><a href="feedback.html">Give Feedback</a></li>
+                        <li><a href="complaint.html">Report Complaint</a></li>
+                        <li><a href="issue.html">Technical Issues</a></li>
+                    </ul>
                 </div>
             </div>
-            <!-- Blood Request Preview -->
-            <div class="mb-16 flex flex-col md:flex-row items-center">
-                <img src="https://via.placeholder.com/600x400/d32f2f/ffffff?text=Blood+Request" alt="Blood Request" class="w-full md:w-1/2">
-                <div class="w-full md:w-1/2 p-4">
-                    <p>Submit emergency blood requests quickly.</p>
-                    <a href="request.html" class="btn mt-4">Request Blood</a>
-                </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BloodLink. All rights reserved. | Privacy Policy | Terms of Service</p>
             </div>
-        </div>
-    </section>
-    <section class="how-it-works">
-        <h2 class="text-3xl mb-8">How It Works</h2>
-        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="step">
-                <span>1</span>
-                <h3>Register</h3>
-                <p>Create an account to get started.</p>
-            </div>
-            <div class="step">
-                <span>2</span>
-                <h3>Donate/Request</h3>
-                <p>Donate blood or request units as needed.</p>
-            </div>
-            <div class="step">
-                <span>3</span>
-                <h3>Manage Stock</h3>
-                <p>Track and manage blood inventory.</p>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-                <h4>About BloodLink</h4>
-                <p>BloodLink is an online blood bank management system connecting donors and recipients with transparency and efficiency.</p>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#registration">Registration</a></li>
-                    <li><a href="#login">Login</a></li>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#stock">Blood Stock</a></li>
-                    <li><a href="#camps">Camps</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#feedback">Feedback</a></li>
-                    <li><a href="#complaint">Complaint</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Contact</h4>
-                <p>Email: support@bloodlink.com</p>
-                <p>Phone: +91-9876543210</p>
-                <p>Address: Delhi, India</p>
-            </div>
-        </div>
-        <div class="social text-center mt-4">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
-        <div class="copyright text-center mt-4">
-            © 2025 BloodLink. All Rights Reserved.
         </div>
     </footer>
+
     <script>
-        // Hamburger toggle
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
         });
 
-        // Animated counters
-        document.querySelectorAll('.counter').forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-target'));
-            const updateCounter = () => {
-                const count = parseInt(counter.innerText);
-                const increment = target / 200;
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment);
-                    setTimeout(updateCounter, 1);
-                } else {
-                    counter.innerText = target;
+        // Add hover effects to access cards
+        document.querySelectorAll('.access-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+                this.style.boxShadow = '0 15px 40px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-            };
+            });
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            function updateCounter() {
+                start += increment;
+                if (start < target) {
+                    element.textContent = Math.floor(start).toLocaleString() + '+';
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target.toLocaleString() + '+';
+                }
+            }
             updateCounter();
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate feature cards
+                    if (entry.target.classList.contains('feature-card')) {
+                        entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                    }
+                    
+                    // Animate stats counters
+                    if (entry.target.classList.contains('stats-section')) {
+                        animateCounter(document.getElementById('donors-count'), 15000, 2000);
+                        animateCounter(document.getElementById('units-collected'), 50000, 2000);
+                        animateCounter(document.getElementById('lives-saved'), 25000, 2000);
+                        animateCounter(document.getElementById('blood-banks'), 200, 2000);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .stats-section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add hover effects to buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add click ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    background: rgba(255,255,255,0.3);
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation to page
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
         });
     </script>
 </body>
